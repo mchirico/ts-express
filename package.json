@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "author": "Mike Chirico (https://mchirico.github.io/) <mchirico@gmail.com>",
-  "license": "Apache License 2.0",
+  "license": "Apache-2.0",
   "repository": "https://github.com/mchirico/ts.git",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/mchirico"

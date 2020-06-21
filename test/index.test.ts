@@ -1,8 +1,8 @@
 import { GitHubApiClient } from '../src/index'
 
 describe('GitHubApiClient', () => {
-  beforeEach(async () => {
-
+  beforeEach(async (done) => {
+    done()
   })
 
   test('check for Mike Chirico', async (done) => {
@@ -11,7 +11,8 @@ describe('GitHubApiClient', () => {
     g.fetchUser('mchirico')
       .then((user) => {
         console.log(user.name)
-        done(expect(user.name).toContain('Mike Chirico'))
+        expect(user.name).toContain('Mike Chirico')
+        done()
       })
       .catch(err => {
         console.error(`Error: ${err.message}`)
