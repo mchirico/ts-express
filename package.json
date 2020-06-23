@@ -15,13 +15,12 @@
     "type": "git",
     "url": "git+https://github.com/mchirico/ts.git"
   },
- "husky": {
+  "husky": {
     "hooks": {
       "pre-commit": "npm run lint",
       "pre-push": "npm test"
     }
-  }
-,
+  },
   "author": "Mike Chirico",
   "license": "Apache-2.0",
   "bugs": {
@@ -32,6 +31,7 @@
     "@types/tmp": "^0.1.0",
     "firebase-admin": "^8.12.1",
     "lodash": "^4.17.15",
+    "node-fetch": "^2.6.0",
     "sqlite3": "^4.2.0",
     "tmp": "^0.1.0",
     "typed-rest-client": "^1.7.0"
@@ -41,6 +41,7 @@
     "@types/lodash": "^4.14.156",
     "@types/mocha": "^7.0.x",
     "@types/node": "^12.12.27",
+    "@types/node-fetch": "^2.5.7",
     "@types/sqlite3": "^3.1.6",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
@@ -55,5 +56,8 @@
     "prettier": "^1.19.1",
     "ts-node": "^8.6.x",
     "typescript": "^3.7.x"
-  }
+  },
+  "files": [
+    "dist/**/*"
+  ]
 }

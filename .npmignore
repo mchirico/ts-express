@@ -2,11 +2,11 @@ Dockerfile
 Makefile
 dlogger*
 env*
-*.pem
+./**/*.pem
 coverage*
-coverage/**/
+coverage/**/*
 src
 tsconfig.json
 tslint.json
 .prettierrc
-*.md
+credentials/**/*
