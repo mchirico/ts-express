@@ -1,67 +1,59 @@
 {
-  "name": "@mchirico/ts",
-  "version": "1.0.9",
-  "private": false,
-  "description": "A Typescript Starter",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "author": "Mike Chirico (https://mchirico.github.io/) <mchirico@gmail.com>",
-  "license": "Apache-2.0",
-  "repository": "https://github.com/mchirico/ts.git",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/mchirico"
-  },
-  "homepage": "https://github.com/mchirico/ts",
-  "bugs": "https://github.com/mchirico/ts/issues",
-  "keywords": [
-    "ts",
-    "github"
-  ],
+  "name": "starter",
+  "version": "1.0.0",
+  "description": "Typescript Starter Project",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "build:watch": "tsc && (tsc -w --preserveWatchOutput & nodemon)",
-    "dev": "npm run build:watch",
-    "start": "node ./lib/index.js",
-    "lint": "standard **/*.ts --fix",
-    "test": "jest --coverage && standard **/*.ts",
-    "test:watch": "jest --watch --notify --notifyMode=change --coverage",
-    "pub": "npm publish --access public"
+    "build": "ncc build src/index.ts",
+    "start": "node dist/index.js",
+    "lint": "eslint ./src --ext .ts,.tsx --fix &&  eslint ./test --ext .ts,.tsx --fix   ",
+    "format": "prettier --write **/*.ts",
+    "test": "mocha -r ts-node/register -t 30s 'test/*.test.ts'"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mchirico/ts.git"
+  },
+ "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm test"
+    }
+  }
+,
+  "author": "Mike Chirico",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/mchirico/ts"
+  },
+  "homepage": "https://github.com/mchirico/ts#readme",
   "dependencies": {
-    "@types/lodash": "^4.14.155",
-    "@types/node-fetch": "^2.5.7",
+    "@types/tmp": "^0.1.0",
+    "firebase-admin": "^8.12.1",
     "lodash": "^4.17.15",
-    "node-fetch": "^2.6.0"
+    "sqlite3": "^4.2.0",
+    "tmp": "^0.1.0",
+    "typed-rest-client": "^1.7.0"
   },
   "devDependencies": {
-    "@types/jest": "^25.1.0",
-    "@types/nock": "^11.1.0",
-    "@types/node": "^13.1.0",
-    "@typescript-eslint/parser": "^2.4.0",
-    "eslint-plugin-typescript": "^0.14.0",
-    "jest": "^24.9.0",
-    "nock": "^12.0.0",
-    "nodemon": "^2.0.0",
-    "standard": "^14.3.1",
-    "ts-jest": "^25.1.0",
-    "typescript": "^3.6.4"
-  },
-  "files": [
-    "lib/**/*"
-  ],
-  "engines": {
-    "node": ">= 12.0.0"
-  },
-  "standard": {
-    "parser": "@typescript-eslint/parser",
-    "env": [
-      "jest"
-    ],
-    "plugins": [
-      "typescript"
-    ]
-  },
-  "jest": {
-    "testEnvironment": "node"
+    "@types/chai": "^4.2.x",
+    "@types/lodash": "^4.14.156",
+    "@types/mocha": "^7.0.x",
+    "@types/node": "^12.12.27",
+    "@types/sqlite3": "^3.1.6",
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "@zeit/ncc": "^0.20.x",
+    "chai": "^4.2.x",
+    "eslint": "^6.8.x",
+    "eslint-config-prettier": "^6.10.x",
+    "eslint-plugin-prettier": "^3.1.x",
+    "husky": "^4.2.3",
+    "mocha": "^7.0.x",
+    "nodemon": "^2.0.4",
+    "prettier": "^1.19.1",
+    "ts-node": "^8.6.x",
+    "typescript": "^3.7.x"
   }
 }

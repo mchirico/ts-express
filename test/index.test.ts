@@ -1,25 +1,25 @@
-import { GitHubApiClient } from '../src/index'
+import "mocha";
+import { expect } from "chai";
+import { promises } from "fs";
+import { Log } from "../src/index";
 
-describe('GitHubApiClient', () => {
-  beforeEach(async (done) => {
-    done()
-  })
+describe("Example ...", function() {
+  beforeEach(async function() {
+    await promises.unlink("./dlogger.txt").catch(e => {
+      console.log("e: " + e.message);
+    });
+  });
 
-  test('check for Mike Chirico', async (done) => {
-    const g = new GitHubApiClient()
+  afterEach(async function() {
+    await promises.unlink("./dlogger.txt").catch(e => {
+      console.log("e: " + e.message);
+    });
+  });
 
-    g.fetchUser('mchirico')
-      .then((user) => {
-        console.log(user.name)
-        expect(user.name).toContain('Mike Chirico')
-        done()
-      })
-      .catch(err => {
-        console.error(`Error: ${err.message}`)
-      })
-  })
-
-  afterEach(() => {
-
-  })
-})
+  it("log utility", async function() {
+    const log = new Log();
+    await log.log("test");
+    const result = await log.read();
+    expect(result).to.contain("test");
+  });
+});

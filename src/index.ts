@@ -1,23 +1,38 @@
-import fetch from 'node-fetch'
+import { promises } from "fs";
 
-class GitHubApiClient {
-  async fetchUser (handle:string) {
-    const url = `https://api.github.com/users/${handle}`
-    const response = await fetch(url)
-    const body = await response.json()
-    if (response.status !== 200) throw Error(body.message)
-    return body
+class Log {
+  _file: string;
+  constructor(file = "./dlogger.txt") {
+    this._file = file;
+  }
+
+  set file(file: string) {
+    this._file = file;
+  }
+
+  async log(txt: string): Promise<void> {
+    const timeStamp = Date();
+    const data = `
+        ${timeStamp.toString()}
+          --START--
+        ${txt}
+          --END--
+        `;
+
+    await promises.appendFile(this._file, data, { flag: "a+" });
+    console.info(data);
+  }
+
+  async read(): Promise<string> {
+    const data = await promises.readFile(this._file);
+    return data.toString();
+  }
+
+  async reset(): Promise<void> {
+    await promises.unlink(this._file).catch(error => {
+      console.log(error.message);
+    });
   }
 }
 
-const g = new GitHubApiClient()
-g.fetchUser('mchirico')
-  .then((user) => {
-    console.log(user.name)
-    console.log(user.location)
-  })
-  .catch(err => {
-    console.error(`Error: ${err.message}`)
-  })
-
-export { GitHubApiClient }
+export { Log };

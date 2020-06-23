@@ -8,3 +8,6 @@ lib
 .data/**
 dlogger*
 /lib
+.
+.idea/**
+credentials/**
