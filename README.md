@@ -6,12 +6,7 @@
 Typescript starter project. No express
 
 This is meant to be a very simple starter project, for quickly
-testing Typescript code. However it does include the following:
-
-- lint
-- jest for test
-- nock
-- Dockerfile/Makefile
+testing Typescript code. 
 
 
 ## Starting
