@@ -44,9 +44,16 @@ jobs:
        gsutil cp gs://nodesepta/node-starter-mocha/credentials/firebase-adminsdk.json ./credentials/firebase-adminsdk.json
 
 
-    # Runs a set of commands using the runners shell
-    - name: Run a multi-line script
+    # Basic test
+    - name: Basic Test
       run: |
         npm install
         npm run test
         bash <(curl -s https://codecov.io/bash)
+
+
+    # 
+    - name: Docker
+      run: |
+        make
+

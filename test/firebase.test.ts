@@ -2,7 +2,7 @@ import "mocha";
 import { expect } from "chai";
 import { App } from "../src/firebase";
 
-describe("Example ...", function() {
+describe("Firebase ...", function() {
   it("Test write to firebase", async function() {
     const app = App();
     const db = app.firestore();

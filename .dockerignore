@@ -1,3 +1,4 @@
 dlogger*
 .git
 node_modules
+.idea/**

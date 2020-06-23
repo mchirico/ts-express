@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { promises } from "fs";
 import { Log } from "../src/index";
 
-describe("Example ...", function() {
+describe("Index ...", function() {
   beforeEach(async function() {
     await promises.unlink("./dlogger.txt").catch(e => {
       console.log("e: " + e.message);
