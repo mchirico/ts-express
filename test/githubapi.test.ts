@@ -12,4 +12,12 @@ describe("Github Api ...", function() {
       done();
     });
   });
+
+  it("GitHub Api Not Found", function(done) {
+    const g = new GitHubApiClient();
+    g.fetchUser("bubbaGump/bad/response").catch(e => {
+      expect(e.message).to.equal("Not Found");
+      done();
+    });
+  });
 });
