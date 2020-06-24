@@ -1,7 +1,7 @@
 import "mocha";
 import { expect } from "chai";
 import { promises } from "fs";
-import { Log } from "../src/index";
+import { Log } from "../src/dlog";
 
 describe("Index ...", function() {
   beforeEach(async function() {
