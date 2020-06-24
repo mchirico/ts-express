@@ -1,7 +1,7 @@
-![CI](https://github.com/mchirico/ts/workflows/CI/badge.svg)
-[![codecov](https://codecov.io/gh/mchirico/ts/branch/master/graph/badge.svg)](https://codecov.io/gh/mchirico/ts)
+![CI](https://github.com/mchirico/ts-express/workflows/CI/badge.svg)
+[![codecov](https://codecov.io/gh/mchirico/ts-express/branch/master/graph/badge.svg)](https://codecov.io/gh/mchirico/ts)
 
-# ts (express)
+# ts-express
 
 Typescript starter project. 
 
