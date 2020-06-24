@@ -1,5 +1,6 @@
 ![CI](https://github.com/mchirico/ts-express/workflows/CI/badge.svg)
-[![codecov](https://codecov.io/gh/mchirico/ts-express/branch/master/graph/badge.svg)](https://codecov.io/gh/mchirico/ts)
+[![codecov](https://codecov.io/gh/mchirico/ts-express/branch/master/graph/badge.svg)](https://codecov.io/gh/mchirico/ts-express)
+
 
 # ts-express
 
