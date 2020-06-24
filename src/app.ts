@@ -41,7 +41,7 @@ export const getApp = (): Express => {
   });
 
   app.get("/push/topic", (_, res) => {
-    const data = { webiste: "/push/topic" };
+    const data = { tsExpress: "/push/topic" };
     publishMessage("topic-npubsub", JSON.stringify(data)).catch();
     res.json({ ok: true });
   });
