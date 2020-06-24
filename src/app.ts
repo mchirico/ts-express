@@ -2,7 +2,7 @@ import express, { Express } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { getS$ } from "./septa/septa";
-// import { publishMessage } from "./pubsub/pubsub";
+import { publishMessage } from "./pubsub/pubsub";
 import * as path from "path";
 
 const corsOptions = {
@@ -40,11 +40,11 @@ export const getApp = (): Express => {
     res.json(heroes);
   });
 
-  // app.get("/push/topic", (_, res) => {
-  //   const data = { webiste: "/push/topic" };
-  //   publishMessage("topic-npubsub", JSON.stringify(data)).catch();
-  //   res.json({ ok: true });
-  // });
+  app.get("/push/topic", (_, res) => {
+    const data = { webiste: "/push/topic" };
+    publishMessage("topic-npubsub", JSON.stringify(data)).catch();
+    res.json({ ok: true });
+  });
 
   app.get("/trainview", (_, res) => {
     getS$.subscribe(x => res.json(x));
