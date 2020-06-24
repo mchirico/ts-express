@@ -5,7 +5,10 @@ import { PubSub } from "@google-cloud/pubsub";
 process.env.GOOGLE_APPLICATION_CREDENTIALS = "./credentials/access.json";
 const client = new PubSub();
 
-export async function publishMessage(topic: string, data: string) {
+export async function publishMessage(
+  topic: string,
+  data: string
+): Promise<string> {
   const dataBuffer = Buffer.from(data);
   const messageId = await client.topic(topic).publish(dataBuffer);
   return messageId;
