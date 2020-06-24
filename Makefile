@@ -1,5 +1,5 @@
 PROJECT = cwxstat-23
-NAME = ts-express
+NAME = tsexpress
 TAG = dev
 
 
@@ -10,5 +10,15 @@ docker-build:
 sh:
 	docker run --rm -it --entrypoint /bin/sh gcr.io/cwxstat-23/ts:dev
 
+
+daemon:
+	docker run -p 3000:3000 --rm -it -d --name $(NAME) gcr.io/$(PROJECT)/$(NAME):$(TAG)
+
 run:
-	docker run --rm -it gcr.io/$(PROJECT)/$(NAME):$(TAG) 
+	docker run -p 3000:3000 --rm -it --name $(NAME)  gcr.io/$(PROJECT)/$(NAME):$(TAG) 
+
+stop:
+	docker stop $(NAME)
+
+logs:
+	docker logs $(NAME)
