@@ -16,6 +16,7 @@ Also see the Makefile
 
 ```
 git clone https://github.com/mchirico/ts.git
+git co express
 npm install
 npm test
 
