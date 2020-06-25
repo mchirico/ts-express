@@ -7,7 +7,7 @@ const client = new PubSub();
 
 export async function publishMessage(
   topic: string,
-  data: string | object
+  data: Record<string, unknown> | string
 ): Promise<string> {
   const dataBuffer = Buffer.from(data);
   const messageId = await client.topic(topic).publish(dataBuffer);

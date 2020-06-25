@@ -17,11 +17,11 @@ class GitHubApiClient {
 
 const g = new GitHubApiClient();
 g.fetchUser("mchirico")
-  .then(user => {
+  .then((user) => {
     console.log(user.name);
     console.log(user.location);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(`Error: ${err.message}`);
   });
 

@@ -6,6 +6,8 @@
 
 Typescript starter project. 
 
+Live demo [tsexpress.cwxstat.io](https://tsexpress.cwxstat.io/)
+
 This is meant to be a very simple starter project, for quickly
 testing Typescript code. It does contain angular 10
 
@@ -13,7 +15,13 @@ For live pull of pubSub messages reference:
 <a href='https://github.com/mchirico/go-pubsub'>https://github.com/mchirico/go-pubsub</a>
 
 
+# upgrade
 
+```
+# install npm-check-updates
+ncu -u
+npm install
+```
 
 ## Starting
 

@@ -1,16 +1,16 @@
 import rp from "request-promise";
 import { Observable } from "rxjs";
 
-export const getS$ = new Observable(observer => {
+export const getS$ = new Observable((observer) => {
   rp("https://www3.septa.org/hackathon/TrainView/")
-    .then(res => {
+    .then((res) => {
       return JSON.parse(res);
     })
-    .then(body => {
+    .then((body) => {
       observer.next(body);
       observer.complete();
     })
-    .catch(err => {
+    .catch((err) => {
       observer.error(err);
     });
 });

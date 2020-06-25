@@ -29,7 +29,7 @@ class Log {
   }
 
   async reset(): Promise<void> {
-    await promises.unlink(this._file).catch(error => {
+    await promises.unlink(this._file).catch((error) => {
       console.log(error.message);
     });
   }

@@ -2,8 +2,8 @@ import "mocha";
 import { expect } from "chai";
 import { App } from "../src/firebase";
 
-describe("Firebase ...", function() {
-  it("Test write to firebase", async function() {
+describe("Firebase ...", function () {
+  it("Test write to firebase", async function () {
     const app = App();
     const db = app.firestore();
     db.collection("tsExample")
@@ -12,12 +12,12 @@ describe("Firebase ...", function() {
         first: "What now okay done...",
         last: "Lovelace",
         born: 1815,
-        msg: "Hello world"
+        msg: "Hello world",
       })
-      .then(r => {
+      .then((r) => {
         console.log("Document written with ID: ", r);
       })
-      .catch(function(error: Error) {
+      .catch(function (error: Error) {
         console.error("Error adding document: ", error);
       });
 

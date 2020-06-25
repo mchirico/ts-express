@@ -3,17 +3,17 @@ import { expect } from "chai";
 import { promises } from "fs";
 import * as sqlite3 from "sqlite3";
 
-describe("SQLite", function() {
-  beforeEach(async function() {
-    await promises.unlink("./test.db").catch(e => {
+describe("SQLite", function () {
+  beforeEach(async function () {
+    await promises.unlink("./test.db").catch((e) => {
       console.log("e: " + e.message);
     });
   });
 
-  it("log utility", async function() {
+  it("log utility", async function () {
     const db = new sqlite3.Database("test.db");
 
-    db.serialize(function() {
+    db.serialize(function () {
       db.run("CREATE TABLE IF NOT EXISTS lorem (info TEXT)");
 
       const stmt = db.prepare("INSERT INTO lorem VALUES (?)");
@@ -22,7 +22,7 @@ describe("SQLite", function() {
       }
       stmt.finalize();
 
-      db.each("SELECT count(*) as total FROM lorem", function(
+      db.each("SELECT count(*) as total FROM lorem", function (
         err: string,
         row: { total: string }
       ) {
@@ -33,7 +33,7 @@ describe("SQLite", function() {
         }
       });
 
-      db.each("SELECT rowid AS id, info FROM lorem limit 3", function(
+      db.each("SELECT rowid AS id, info FROM lorem limit 3", function (
         err: string,
         row: { id: string; info: string }
       ) {
