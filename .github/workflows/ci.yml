@@ -42,6 +42,8 @@ jobs:
       run: |
        mkdir -p credentials
        gsutil cp gs://nodesepta/ts-express/credentials/* ./credentials/.
+       mkdir -p angular/src/environments
+       gsutil cp gs://nodesepta/ts-express/environments/* ./angular/src/environments/.
 
 
     # Basic test
@@ -54,4 +56,16 @@ jobs:
         CI: true
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
+
+    # Angular
+    - name: Angular
+      run: |
+       cd angular
+       npm install
+
+
+    # Docker
+    - name: Docker
+      run: |
+       make
 
