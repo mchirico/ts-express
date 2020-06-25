@@ -11,6 +11,9 @@
     "esModuleInterop": true,
     "declaration": true,
     "composite": true
-  }
+  },
+    "exclude": [
+        "angular",
+    ]
 
 }
