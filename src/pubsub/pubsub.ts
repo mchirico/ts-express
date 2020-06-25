@@ -7,7 +7,7 @@ const client = new PubSub();
 
 export async function publishMessage(
   topic: string,
-  data: string
+  data: string | object
 ): Promise<string> {
   const dataBuffer = Buffer.from(data);
   const messageId = await client.topic(topic).publish(dataBuffer);
@@ -25,7 +25,7 @@ export async function listenForMessages(
   let messageCount = 0;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const messageHandler = (message: {
-    id: any;
+    id: string;
     data: any;
     attributes: any;
     ack: () => void;

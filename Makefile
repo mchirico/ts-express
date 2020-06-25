@@ -4,6 +4,8 @@ TAG = dev
 
 
 docker-build:
+	rm -rf static
+	(cd angular && ./updateStatic.sh)
 	docker build --no-cache -t gcr.io/$(PROJECT)/$(NAME):$(TAG) -f Dockerfile .
 
 
