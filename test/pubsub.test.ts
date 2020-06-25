@@ -26,7 +26,7 @@ describe("Create topic", function() {
     this.timeout(54000);
     CreateTopic("junk2")
       .then(r => {
-        console.log("done");
+        console.log(`topic ${r.name} created`);
         done();
       })
       .catch(r => {
@@ -41,7 +41,7 @@ describe.skip("Create topic again", () => {
   it("junk2", async () => {
     await CreateTopic("junk2")
       .then(r => {
-        console.log("done");
+        console.log(`topic: ${r.name} created.`);
       })
       .catch(r => {
         // 'Error: 6 ALREADY_EXISTS: Resource already exists in the project';
@@ -113,8 +113,8 @@ describe("delete Topic", function() {
   it("delete", function(done) {
     //this.timeout(1400);
     DeleteTopic("junk2")
-      .then(r => {
-        console.log("done");
+      .then(() => {
+        console.log(`Topic deleted`);
         done();
       })
       .catch(r => {
