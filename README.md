@@ -13,7 +13,13 @@ For live pull of pubSub messages reference:
 <a href='https://github.com/mchirico/go-pubsub'>https://github.com/mchirico/go-pubsub</a>
 
 
+# upgrade
 
+```
+# install npm-check-updates
+ncu -u
+npm install
+```
 
 ## Starting
 

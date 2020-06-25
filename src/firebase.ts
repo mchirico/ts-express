@@ -9,7 +9,7 @@ export function App(): admin.app.App {
   if (!admin.apps.length) {
     const app = admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
-      databaseURL: "https://septapig.firebaseio.com"
+      databaseURL: "https://septapig.firebaseio.com",
     });
     adminApp = app;
     return app;
