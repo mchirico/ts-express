@@ -60,7 +60,7 @@ jobs:
     # ng command for Angular
     - name: ng command for Angular
       run: |
-         npm install -g @angular/cli
+         sudo npm install -g @angular/cli
 
 
     # Angular
