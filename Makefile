@@ -10,6 +10,8 @@ docker-build:
 
 
 deploy:
+	rm -rf static
+	(cd angular && ./updateStatic.sh)
 	gcloud config set gcloudignore/enabled false --project $(PROJECT)
 	gcloud builds submit --tag gcr.io/$(PROJECT)/$(NAME)cloud --project $(PROJECT) --timeout 35m23s
 	gcloud run deploy $(NAME)cloud --image gcr.io/$(PROJECT)/$(NAME)cloud \

@@ -1,0 +1,16 @@
+<div>More than 90% junk..</div>
+<ul>
+  <li class="text" *ngFor="let row of data | async">
+
+    <div>{{row.subject}}</div>
+    {{row.date }}
+    <div>{{row.returnpath}}</div>
+    <div> {{row.msg}}</div>
+    <div>{{row.timeStampS}}</div>
+    <button (click)="delete(row.id)">Delete</button>
+
+    <p></p>
+  </li>
+</ul>
+
+
