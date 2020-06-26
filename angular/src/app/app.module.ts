@@ -14,6 +14,7 @@ import { AuthComponent } from './navpages/auth/auth.component';
 import { NavbarComponent } from './navbars/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {DemoMaterialModule} from "./material-module";
+import { DataComponent } from './firebase/data/data.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {DemoMaterialModule} from "./material-module";
     HomeComponent,
     MainComponent,
     AuthComponent,
-    NavbarComponent
+    NavbarComponent,
+    DataComponent
   ],
   imports: [
     BrowserModule,
