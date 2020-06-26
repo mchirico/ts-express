@@ -1,8 +1,24 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {Page0Component} from "./navpages/page0/page0.component";
+import {Page1Component} from "./navpages/page1/page1.component";
+import {HomeComponent} from "./navpages/home/home.component";
+import {MainComponent} from "./navpages/main/main.component";
+import {AuthComponent} from "./navpages/auth/auth.component";
 
 
-const routes: Routes = [];
+
+const routes: Routes = [
+  {path: '', redirectTo: '/main', pathMatch: 'full'},
+  {path: 'home', component: HomeComponent},
+  {path: 'main', component: MainComponent},
+  {path: 'page0', component: Page0Component},
+  {path: 'page1', component: Page1Component},
+  {path: 'auth', component: AuthComponent},
+
+
+];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

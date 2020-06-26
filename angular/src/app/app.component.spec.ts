@@ -6,6 +6,7 @@ import {AngularFirestore} from "@angular/fire/firestore";
 // import {Observable} from "rxjs";
 import {AngularFireModule} from "@angular/fire";
 import {environment} from "../environments/environment";
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -18,6 +19,9 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      schemas: [
+      CUSTOM_ELEMENTS_SCHEMA
+    ],
       providers: [ AngularFirestore ],
     }).compileComponents();
   }));

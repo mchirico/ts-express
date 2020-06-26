@@ -57,21 +57,3 @@ jobs:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 
-    # ng command for Angular
-    - name: ng command for Angular
-      run: |
-         sudo npm install -g @angular/cli
-
-
-    # Angular
-    - name: Angular
-      run: |
-       cd angular
-       npm install
-
-
-    # Docker
-    - name: Docker
-      run: |
-       make
-

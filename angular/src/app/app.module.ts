@@ -5,16 +5,34 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
+import {FormsModule} from "@angular/forms";
+import { Page0Component } from './navpages/page0/page0.component';
+import { Page1Component } from './navpages/page1/page1.component';
+import { HomeComponent } from './navpages/home/home.component';
+import { MainComponent } from './navpages/main/main.component';
+import { AuthComponent } from './navpages/auth/auth.component';
+import { NavbarComponent } from './navbars/navbar/navbar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {DemoMaterialModule} from "./material-module";
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    Page0Component,
+    Page1Component,
+    HomeComponent,
+    MainComponent,
+    AuthComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
+    BrowserAnimationsModule,
+    DemoMaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
