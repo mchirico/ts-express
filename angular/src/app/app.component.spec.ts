@@ -1,16 +1,24 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import {AngularFirestore} from "@angular/fire/firestore";
+
+// import {Observable} from "rxjs";
+import {AngularFireModule} from "@angular/fire";
+import {environment} from "../environments/environment";
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        AngularFireModule.initializeApp(environment.firebase),
+        RouterTestingModule,
+
       ],
       declarations: [
         AppComponent
       ],
+      providers: [ AngularFirestore ],
     }).compileComponents();
   }));
 
@@ -26,10 +34,5 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('angular');
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('angular app is running!');
-  });
+
 });
