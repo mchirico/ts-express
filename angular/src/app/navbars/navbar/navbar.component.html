@@ -1,0 +1,12 @@
+<!-- #docregion mat-menu-trigger-for -->
+<button mat-button [matMenuTriggerFor]="menu">Menu</button>
+<!-- #enddocregion mat-menu-trigger-for -->
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="navigateMenu('Home')">Home</button>
+  <button mat-menu-item (click)="navigateMenu('Main')">Main</button>
+  <button mat-menu-item (click)="navigateMenu('Page0')">Page0</button>
+  <button mat-menu-item (click)="navigateMenu('Page1')">Page1</button>
+  <button mat-menu-item (click)="navigateMenu('Auth')">Auth</button>
+
+</mat-menu>
+

@@ -1,7 +1,17 @@
+<app-navbar></app-navbar>
+<router-outlet></router-outlet>
+<h2>{{label.name | uppercase}} Details</h2>
+<div><span>result: </span>{{result.name}}</div>
+<div>
+  <label>name:
+    <input [(ngModel)]="label.name" placeholder="name"/>
+    <button (click)="onClickMe()">Click me!</button>
 
+  </label>
+</div>
 <ul>
   <li class="text" *ngFor="let item of items | async">
     {{item.name}}
   </li>
 </ul>
-<router-outlet></router-outlet>
+
