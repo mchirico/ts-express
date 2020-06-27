@@ -67,6 +67,7 @@ jobs:
       run: |
          cd angular
          npm install
+         ng lint
          npm run test -- --no-watch --code-coverage --no-progress --browsers=ChromeHeadlessCI
          npm run coverage
       env:

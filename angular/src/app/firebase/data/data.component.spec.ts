@@ -1,51 +1,42 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-//
-// import { DataComponent } from './data.component';
-// import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, QueryFn} from "@angular/fire/firestore";
-// import {FirebaseApp} from "@angular/fire";
-// import {Observable} from "rxjs";
-//
-//
-// class AngularFirestoreStub implements AngularFirestore {
-//   app: FirebaseApp;
-//   firestore: any;
-//   persistenceEnabled$: Observable<boolean>;
-//
-//   collection<T>(path: string, queryFn?: QueryFn): AngularFirestoreCollection<T> {
-//     return undefined
-//   }
-//
-//
-//   doc<T>(path: string): AngularFirestoreDocument<T> {
-//     return undefined;
-//   }
-//
-//   createId(): string {
-//     return undefined;
-//   }
-// }
-//
-//
-// describe('DataComponent', () => {
-//   let component: DataComponent;
-//   let fixture: ComponentFixture<DataComponent>;
-//
-//
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ DataComponent ],
-//       providers: [{provide: AngularFirestore, useClass: AngularFirestoreStub}],
-//     })
-//     .compileComponents();
-//   }));
-//
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(DataComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
-//
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { DataComponent } from './data.component';
+import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, QueryFn} from '@angular/fire/firestore';
+
+import { of } from 'rxjs';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../../../environments/environment';
+import {RouterTestingModule} from '@angular/router/testing';
+
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+
+
+
+describe('DataComponent', () => {
+
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        AngularFireModule.initializeApp(environment.firebase),
+        RouterTestingModule,
+
+      ],
+      declarations: [
+        DataComponent
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+      ],
+      providers: [ AngularFirestore ],
+    }).compileComponents();
+  }));
+
+
+
+  it('should create', () => {
+    const fixture = TestBed.createComponent(DataComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
+  });
+});

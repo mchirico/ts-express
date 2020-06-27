@@ -8,18 +8,19 @@ import {auth} from 'firebase/app';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
-  constructor(public auth: AngularFireAuth) {
+
+  constructor(private fba: AngularFireAuth) {
 
   }
 
-  login() {
-    // Make sure domain is white listed on Frebase
-    this.auth.signInWithPopup(new auth.GoogleAuthProvider());
+  login(): void {
+    // Make sure domain is white listed on Firebase
+    this.fba.signInWithPopup(new auth.GoogleAuthProvider());
     // this.auth.signInWithRedirect(new auth.GoogleAuthProvider());
   }
 
-  logout() {
-    this.auth.signOut();
+  logout(): void {
+    this.fba.signOut();
   }
 
   ngOnInit(): void {

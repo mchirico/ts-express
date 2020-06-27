@@ -23,9 +23,8 @@ export class AppComponent {
     this.items = firestore.collection('items').valueChanges();
   }
 
-  onClickMe(){
+  onClickMe(): void{
     this.result.name = this.label.name;
   }
-  ngOnInit() {
-  }
+
 }
