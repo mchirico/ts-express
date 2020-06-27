@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthComponent } from './auth.component';
 import {AngularFireAuth} from '@angular/fire/auth';
-
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 
 describe('AuthComponent', () => {
   let component: AuthComponent;
@@ -13,6 +13,9 @@ describe('AuthComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AuthComponent ],
+      schemas: [
+       CUSTOM_ELEMENTS_SCHEMA
+     ],
       providers: [
         {provide: AngularFireAuth, useValue: valueAngularFireAuthSpy},
       ]
