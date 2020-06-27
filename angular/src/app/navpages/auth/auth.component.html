@@ -3,7 +3,7 @@
 
 <mat-card style="background-color: #edf3f6;">
 
-  <div *ngIf="auth.user | async as user; else showLogin">
+  <div *ngIf="fba.user | async as user; else showLogin">
     <h2>Hello {{ user.displayName }}!</h2>
     <button (click)="logout()">Logout</button>
   </div>

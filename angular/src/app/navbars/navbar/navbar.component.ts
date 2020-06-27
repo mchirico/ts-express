@@ -13,7 +13,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  navigateMenu(tag){
+  navigateMenu(tag): void{
     if (tag === 'Home'){
       this.router.navigate(['/home']);
     }
@@ -31,7 +31,7 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  onNavigate(){
+  onNavigate(): void{
     window.open('https://github.com/mchirico/ts-express', '_blank');
 
   }
