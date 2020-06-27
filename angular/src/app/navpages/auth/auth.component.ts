@@ -9,7 +9,7 @@ import {auth} from 'firebase/app';
 })
 export class AuthComponent implements OnInit {
 
-  constructor(private fba: AngularFireAuth) {
+  constructor(public fba: AngularFireAuth) {
 
   }
 

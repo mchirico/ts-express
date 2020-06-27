@@ -5,7 +5,7 @@
   <mat-toolbar-row>
 
     <button mat-button [matMenuTriggerFor]="menu"> <mat-icon>menu</mat-icon></button>
-    <span>Custom Toolbar</span>
+    <span>TS Express</span>
 
   </mat-toolbar-row>
   <!-- #enddocregion toolbar-row -->
@@ -20,6 +20,8 @@
   <button mat-menu-item (click)="navigateMenu('Main')">Main</button>
   <button mat-menu-item (click)="navigateMenu('Page0')">Page0</button>
   <button mat-menu-item (click)="navigateMenu('Page1')">Page1</button>
+  <button mat-menu-item (click)="navigateMenu('Info')">Info</button>
+  <button mat-menu-item (click)="navigateMenu('SVG')">SVG</button>
   <button mat-menu-item (click)="navigateMenu('Auth')">Auth</button>
   <button mat-menu-item [matMenuTriggerFor]="github">Vertebrates</button>
   <button mat-menu-item [matMenuTriggerFor]="invertebrates">Invertebrates</button>

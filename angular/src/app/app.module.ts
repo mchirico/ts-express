@@ -15,6 +15,8 @@ import { NavbarComponent } from './navbars/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {DemoMaterialModule} from './material-module';
 import { DataComponent } from './firebase/data/data.component';
+import { SvgComponent } from './navpages/svg/svg.component';
+import { InfoComponent } from './navpages/info/info.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { DataComponent } from './firebase/data/data.component';
     MainComponent,
     AuthComponent,
     NavbarComponent,
-    DataComponent
+    DataComponent,
+    SvgComponent,
+    InfoComponent
   ],
   imports: [
     BrowserModule,

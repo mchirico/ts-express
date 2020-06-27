@@ -5,6 +5,8 @@ import {Page1Component} from './navpages/page1/page1.component';
 import {HomeComponent} from './navpages/home/home.component';
 import {MainComponent} from './navpages/main/main.component';
 import {AuthComponent} from './navpages/auth/auth.component';
+import {InfoComponent} from './navpages/info/info.component';
+import {SvgComponent} from './navpages/svg/svg.component';
 
 
 
@@ -14,6 +16,8 @@ const routes: Routes = [
   {path: 'main', component: MainComponent},
   {path: 'page0', component: Page0Component},
   {path: 'page1', component: Page1Component},
+  {path: 'info', component: InfoComponent},
+  {path: 'svg', component: SvgComponent},
   {path: 'auth', component: AuthComponent},
 
 
