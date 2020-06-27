@@ -26,6 +26,12 @@ export class NavbarComponent implements OnInit {
     if (tag === 'Page1'){
       this.router.navigate(['/page1']);
     }
+    if (tag === 'Info'){
+      this.router.navigate(['/info']);
+    }
+    if (tag === 'SVG'){
+      this.router.navigate(['/svg']);
+    }
     if (tag === 'Auth'){
       this.router.navigate(['/auth']);
     }
