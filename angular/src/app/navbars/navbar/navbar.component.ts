@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -14,20 +14,25 @@ export class NavbarComponent implements OnInit {
   }
 
   navigateMenu(tag){
-    if(tag === 'Home'){
+    if (tag === 'Home'){
       this.router.navigate(['/home']);
     }
-    if(tag === 'Main'){
+    if (tag === 'Main'){
       this.router.navigate(['/main']);
     }
-    if(tag === 'Page0'){
+    if (tag === 'Page0'){
       this.router.navigate(['/page0']);
     }
-    if(tag === 'Page1'){
+    if (tag === 'Page1'){
       this.router.navigate(['/page1']);
     }
-    if(tag === 'Auth'){
+    if (tag === 'Auth'){
       this.router.navigate(['/auth']);
     }
+  }
+
+  onNavigate(){
+    window.open('https://github.com/mchirico/ts-express', '_blank');
+
   }
 }
