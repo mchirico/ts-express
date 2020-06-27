@@ -21,12 +21,12 @@
   <button mat-menu-item (click)="navigateMenu('Page0')">Page0</button>
   <button mat-menu-item (click)="navigateMenu('Page1')">Page1</button>
   <button mat-menu-item (click)="navigateMenu('Auth')">Auth</button>
-  <button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>
+  <button mat-menu-item [matMenuTriggerFor]="github">Vertebrates</button>
   <button mat-menu-item [matMenuTriggerFor]="invertebrates">Invertebrates</button>
 
 
-  <mat-menu #vertebrates="matMenu">
-    <button mat-menu-item [matMenuTriggerFor]="fish">Fishes</button>
+  <mat-menu #github="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="projects">Github</button>
     <button mat-menu-item [matMenuTriggerFor]="amphibians">Amphibians</button>
     <button mat-menu-item [matMenuTriggerFor]="reptiles">Reptiles</button>
     <button mat-menu-item>Birds</button>
@@ -44,7 +44,8 @@
     <button mat-menu-item>Horseshoe crabs</button>
   </mat-menu>
 
-  <mat-menu #fish="matMenu">
+  <mat-menu #projects="matMenu">
+    <button mat-menu-item (click)="onNavigate()">ts-express</button>
     <button mat-menu-item>Baikal oilfish</button>
     <button mat-menu-item>Bala shark</button>
     <button mat-menu-item>Ballan wrasse</button>

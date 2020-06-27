@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {Page0Component} from "./navpages/page0/page0.component";
-import {Page1Component} from "./navpages/page1/page1.component";
-import {HomeComponent} from "./navpages/home/home.component";
-import {MainComponent} from "./navpages/main/main.component";
-import {AuthComponent} from "./navpages/auth/auth.component";
+import {Page0Component} from './navpages/page0/page0.component';
+import {Page1Component} from './navpages/page1/page1.component';
+import {HomeComponent} from './navpages/home/home.component';
+import {MainComponent} from './navpages/main/main.component';
+import {AuthComponent} from './navpages/auth/auth.component';
 
 
 

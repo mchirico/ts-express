@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import {Label} from './label'
+import {Label} from './label';
 
 @Component({
   selector: 'app-root',
