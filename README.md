@@ -8,6 +8,9 @@ Typescript starter project.
 
 Live demo [tsexpress.cwxstat.io](https://tsexpress.cwxstat.io/)
 
+StackBlitz [ts-express](https://stackblitz.com/github/mchirico/ts-express/tree/master/angular)
+
+
 This is meant to be a very simple starter project, for quickly
 testing Typescript code. It does contain angular 10
 

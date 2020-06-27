@@ -11,5 +11,5 @@ dlogger*
 .
 .idea/**
 credentials/**
-./angular/src/environments/**/*
+
 

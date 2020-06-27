@@ -8,6 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "mytest":"ng lint --fix && ng test -- --no-watch --code-coverage --no-progress --browsers=ChromeHeadlessCI",
     "coverage": "ng test -- --no-watch --code-coverage --no-progress --browsers=ChromeHeadlessCI && codecov -p ../ -t ${CODECOV_TOKEN}"
   },
   "private": true,
