@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit {
   }
 
   navigateMenu(tag): void{
+    console.log('tag: ${tag}');
     if (tag === 'Home'){
       this.router.navigate(['/home']);
     }
@@ -34,6 +35,9 @@ export class NavbarComponent implements OnInit {
     }
     if (tag === 'Auth'){
       this.router.navigate(['/auth']);
+    }
+    if (tag === 'Notification'){
+      this.router.navigate(['/notification']);
     }
   }
 

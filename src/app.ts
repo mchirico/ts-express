@@ -3,7 +3,12 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { getS$ } from "./septa/septa";
 import { publishMessage } from "./pubsub/pubsub";
+
 import * as path from "path";
+
+import { sendNewsletter } from "./newsletter";
+import { addPushSubscriber } from "./add-push-subscriber.route";
+import { readAllLessons } from "./read-all-lessons.route";
 
 const corsOptions = {
   origin: "*",
@@ -53,6 +58,11 @@ export const getApp = (): Express => {
   app.get("/trainviewp", (_, res) => {
     getS$.subscribe((x) => res.jsonp(x));
   });
+
+  app.route("/api/newsletter").post(sendNewsletter);
+  app.route("/api/notifications").post(addPushSubscriber);
+  app.route("/api/lessons").get(readAllLessons);
+
   // Default ... keep last
   app.use("*", express.static(angularDirectoryPath));
   return app;
