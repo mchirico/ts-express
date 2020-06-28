@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {IncrementDecrementService} from '../../service/increment-decrement.service';
 
 @Component({
   selector: 'app-page1',
@@ -7,8 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Page1Component implements OnInit {
 
-  constructor() { }
-
+  constructor(public incrementDecrement: IncrementDecrementService) { }
+  increment(): void {
+    this.incrementDecrement.increment();
+  }
+  decrement(): void {
+    this.incrementDecrement.decrement();
+  }
   ngOnInit(): void {
   }
 
