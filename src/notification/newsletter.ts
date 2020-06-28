@@ -13,7 +13,7 @@ webpush.setVapidDetails(
   vapidKeys.privateKey
 );
 
-export function sendNewsletter(req: Request, res: Response) {
+export function sendNewsletter(req: Request, res: Response): void {
   console.log("Total subscriptions", USER_SUBSCRIPTIONS.length);
 
   // sample notification payload

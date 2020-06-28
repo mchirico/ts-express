@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { USER_SUBSCRIPTIONS } from "./in-memory-db";
 
-export function addPushSubscriber(req: Request, res: Response) {
+export function addPushSubscriber(req: Request, res: Response): void {
   const sub = req.body;
 
   console.log("Received Subscription on the server: ", sub);
