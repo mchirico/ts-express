@@ -6,9 +6,9 @@ import { publishMessage } from "./pubsub/pubsub";
 
 import * as path from "path";
 
-import { sendNewsletter } from "./newsletter";
-import { addPushSubscriber } from "./add-push-subscriber.route";
-import { readAllLessons } from "./read-all-lessons.route";
+import { sendNewsletter } from "./notification/newsletter";
+import { addPushSubscriber } from "./notification/add-push-subscriber.route";
+import { readAllLessons } from "./notification/read-all-lessons.route";
 
 const corsOptions = {
   origin: "*",
