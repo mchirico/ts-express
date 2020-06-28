@@ -17,6 +17,9 @@ import {DemoMaterialModule} from './material-module';
 import { DataComponent } from './firebase/data/data.component';
 import { SvgComponent } from './navpages/svg/svg.component';
 import { InfoComponent } from './navpages/info/info.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { NotificationComponent } from './navpages/notification/notification.component';
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
@@ -30,7 +33,8 @@ import { InfoComponent } from './navpages/info/info.component';
     NavbarComponent,
     DataComponent,
     SvgComponent,
-    InfoComponent
+    InfoComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +43,8 @@ import { InfoComponent } from './navpages/info/info.component';
     AngularFireModule.initializeApp(environment.firebase),
     BrowserAnimationsModule,
     DemoMaterialModule,
+    HttpClientModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [],
   bootstrap: [AppComponent]
