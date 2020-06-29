@@ -1,7 +1,7 @@
 import { promises } from "fs";
 
 class Log {
-  _file: string;
+  private _file: string;
   constructor(file = "./dlogger.txt") {
     this._file = file;
   }

@@ -22,4 +22,19 @@ describe("Index ...", function () {
     const result = await log.read();
     expect(result).to.contain("test");
   });
+
+  it("change file", async function () {
+    let status = false;
+    const log = new Log();
+    log.file = "./junkfile";
+    await log.log("test");
+    const result = await log.read();
+    expect(result).to.contain("test");
+    await log.reset();
+    await log.read().catch((e) => {
+      expect(e.message).to.contain("no such file or directory");
+      status = true;
+    });
+    expect(status).to.be.true;
+  });
 });
