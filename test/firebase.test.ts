@@ -1,6 +1,6 @@
 import "mocha";
 import { expect } from "chai";
-import { App } from "../src/firebase";
+import { App } from "../src/firebase/firebase";
 
 describe("Firebase ...", function () {
   it("Test write to firebase", async function () {

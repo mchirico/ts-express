@@ -4,6 +4,7 @@ import {DataService, Data} from '../../service/firebase/pomodoro/data.service';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {auth} from 'firebase';
 import { v1 as uuid } from 'uuid';
+import {DialogComponent} from './dialog.component';
 
 
 export interface DialogData {
@@ -41,7 +42,7 @@ export class PomodoroComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogComponent, {
-      width: '250px',
+      width: '350px',
       data: {name: this.name,
         minutes: this.minutes,
       description: this.data.description,
@@ -75,18 +76,4 @@ export class PomodoroComponent implements OnInit {
 
 }
 
-@Component({
-  selector: 'app-dialog',
-  templateUrl: './dialog-dialog.html',
-})
-export class DialogComponent {
 
-  constructor(
-    public dialogRef: MatDialogRef<DialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-}

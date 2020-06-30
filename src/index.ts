@@ -1,5 +1,6 @@
 import { PORT } from "./configuration";
 import { getApp } from "./app";
+
 const startServer = () => {
   try {
     const app = getApp();

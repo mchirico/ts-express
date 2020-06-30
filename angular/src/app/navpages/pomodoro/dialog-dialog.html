@@ -13,6 +13,10 @@
 
 <div mat-dialog-actions>
   <p>Ready to execute task?</p>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Execute</button>
+  <div>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Execute</button>
+  </div>
+
+
 </div>

@@ -20,7 +20,8 @@ import { InfoComponent } from './navpages/info/info.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NotificationComponent } from './navpages/notification/notification.component';
 import {HttpClientModule} from '@angular/common/http';
-import { PomodoroComponent, DialogComponent } from './navpages/pomodoro/pomodoro.component';
+import { PomodoroComponent } from './navpages/pomodoro/pomodoro.component';
+import {DialogComponent} from './navpages/pomodoro/dialog.component';
 
 
 @NgModule({
