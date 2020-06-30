@@ -1,0 +1,36 @@
+<p>pomodoro works!</p>
+
+
+<mat-card style="background-color: #edf3f6;">
+
+  <div *ngIf="fba.user | async as user; else showLogin">
+    <h2>Hello {{ user.displayName }}!</h2>
+    <button (click)="logout()">Logout</button>
+  </div>
+  <ng-template #showLogin>
+    <p>Please login.</p>
+    <button (click)="login()">Login with Google</button>
+  </ng-template>
+
+</mat-card>
+
+
+
+
+<div>
+<mat-form-field>
+  <mat-label>Task name?</mat-label>
+  <input matInput [(ngModel)]="name">
+</mat-form-field>
+</div>
+
+<div>
+<mat-form-field>
+  <mat-label>Time in minutes</mat-label>
+  <input matInput [(ngModel)]="minutes">
+</mat-form-field>
+</div>
+
+<div>
+<button mat-raised-button (click)="openDialog()">Set</button>
+</div>
