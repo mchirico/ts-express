@@ -17,8 +17,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint",
-      "pre-push": "npm test"
+      "pre-commit": "npm run lint"
+
     }
   },
   "author": "Mike Chirico",
@@ -48,6 +48,7 @@
     "web-push": "^3.4.4"
   },
   "devDependencies": {
+    "@firebase/testing": "^0.20.5",
     "@types/body-parser": "^1.19.0",
     "@types/chai": "^4.2.x",
     "@types/cors": "^2.8.6",
