@@ -6,7 +6,13 @@ TAG = dev
 docker-build:
 	rm -rf static
 	(cd angular && ./updateStatic.sh)
-	docker build --build-arg var_firebase="${FIREBASE_TOKEN}" --no-cache -t gcr.io/$(PROJECT)/$(NAME):$(TAG) -f Dockerfile .
+	docker build --build-arg var_firebase="${FIREBASE_TOKEN}" -t gcr.io/$(PROJECT)/$(NAME):$(TAG) -f Dockerfile .
+
+
+start:
+	rm -rf static
+	(cd angular && ./updateStatic.sh) && npm run build && npm start
+
 
 
 dev:

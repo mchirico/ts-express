@@ -44,4 +44,11 @@ export class DataService {
     });
 
   }
+  addDataAny(data: any): void {
+
+    this.dataDoc.set(data).catch(e => {
+      console.log(e);
+    });
+
+  }
 }

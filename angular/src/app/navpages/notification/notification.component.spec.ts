@@ -49,7 +49,7 @@ class TestSwUpdate {
 }
 
 
-describe('NotificationComponent', () => {
+describe('NotificationComponent...', () => {
   let component: NotificationComponent;
   let fixture: ComponentFixture<NotificationComponent>;
   const testSwUpdate = new TestSwUpdate();

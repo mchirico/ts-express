@@ -42,6 +42,9 @@ export class NavbarComponent implements OnInit {
     if (tag === 'Pomodoro'){
       this.router.navigate(['/pomodoro']);
     }
+    if (tag === 'FB-Notification'){
+      this.router.navigate(['/fbnotification']);
+    }
   }
 
   onNavigate(): void{
