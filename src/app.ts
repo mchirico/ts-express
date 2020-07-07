@@ -9,7 +9,7 @@ import * as path from "path";
 import { sendNewsletter } from "./notification/newsletter";
 import { addPushSubscriber } from "./notification/add-push-subscriber.route";
 import { readAllLessons } from "./notification/read-all-lessons.route";
-import { onSnapshot } from "./firebasekick";
+import { FBK, db, ProcessTask } from "./firebasekick";
 
 const corsOptions = {
   origin: "*",
@@ -18,7 +18,11 @@ const corsOptions = {
 
 export const getApp = (): Express => {
   // FIXME: test take out
-  onSnapshot("pomodoro/mchirico/tasks/0");
+  // const fbk = new FBK(db);
+  // fbk.onSnapshot("pomodoro/mchirico/tasks/0");
+  const processTask = new ProcessTask(db);
+  processTask.process("pomodoro/mchirico/tasks");
+  // onSnapshot("pomodoro/mchirico/tasks/0");
 
   const app = express();
   app.use(bodyParser.urlencoded({ extended: false }));

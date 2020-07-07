@@ -6,7 +6,8 @@
 
 Typescript starter project. 
 
-Live demo [tsexpress.cwxstat.io](https://tsexpress.cwxstat.io/)
+Live demo [tsexpress.cwxstat.io](https://tsexpress.cwxstat.io/) Make sure
+you install all missing packages.
 
 StackBlitz [ts-express](https://stackblitz.com/github/mchirico/ts-express/tree/master/angular)
 

@@ -2,6 +2,9 @@ import "mocha";
 
 import * as firebase from "@firebase/testing";
 import { FBK, set } from "../src/firebasekick";
+import admin from "firebase-admin";
+import DocumentData = admin.firestore.DocumentData;
+import { expect } from "chai";
 
 // Manual testing:
 //   firebase emulators:start
@@ -33,6 +36,38 @@ describe("FirebaseKick ...", function () {
 
   // TODO: You need the emulator for this test
   //   firebase emulators:start --project septapig
+  it("Test snapshot2 ", async function () {
+    const path = "/items/1";
+    const db = getDBadmin();
+    const fbk = new FBK(db);
+    await fbk.set(path, { action: "hold", fb: "yes...fbk", minutes: 20 });
+    await fbk.minutesLeft(path);
+
+    const obs = fbk.onSnapshot2(
+      "items",
+      "action",
+      "activate",
+      "added",
+      (r: DocumentData) => {
+        console.log("here....", r.desc);
+        expect(r.desc).to.contain("yes_worked");
+        const result = fbk.createSubscription(r);
+        expect(result.endpoint).to.contain("endpoint");
+      }
+    );
+    await fbk.set(path, {
+      action: "activate",
+      desc: "yes_worked",
+      endpoint: "endpoint",
+      p256dh: "p256dh",
+      auth: "auth",
+      minutes: 20,
+    });
+
+    const testQuery = db.doc(path);
+    await firebase.assertSucceeds(testQuery.get());
+  });
+
   it("Test snapshot minutes", async function () {
     const path = "/items/1";
     const db = getDBadmin();
