@@ -9,6 +9,7 @@ import {InfoComponent} from './navpages/info/info.component';
 import {SvgComponent} from './navpages/svg/svg.component';
 import {NotificationComponent} from './navpages/notification/notification.component';
 import {PomodoroComponent} from './navpages/pomodoro/pomodoro.component';
+import {FbNotificationComponent} from './navpages/fb-notification/fb-notification.component';
 
 
 
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: 'page1', component: Page1Component},
   {path: 'info', component: InfoComponent},
   {path: 'notification', component: NotificationComponent},
+  {path: 'fbnotification', component: FbNotificationComponent},
   {path: 'pomodoro', component: PomodoroComponent},
   {path: 'svg', component: SvgComponent},
   {path: 'auth', component: AuthComponent},

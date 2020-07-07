@@ -22,6 +22,7 @@ import { NotificationComponent } from './navpages/notification/notification.comp
 import {HttpClientModule} from '@angular/common/http';
 import { PomodoroComponent } from './navpages/pomodoro/pomodoro.component';
 import {DialogComponent} from './navpages/pomodoro/dialog.component';
+import { FbNotificationComponent } from './navpages/fb-notification/fb-notification.component';
 
 
 @NgModule({
@@ -37,7 +38,7 @@ import {DialogComponent} from './navpages/pomodoro/dialog.component';
     SvgComponent,
     InfoComponent,
     NotificationComponent,
-    PomodoroComponent, DialogComponent
+    PomodoroComponent, DialogComponent, FbNotificationComponent
   ],
   imports: [
     BrowserModule,

@@ -19,7 +19,7 @@ export function sendNewsletter(req: Request, res: Response): void {
   // sample notification payload
   const notificationPayload = {
     notification: {
-      title: "Angular News",
+      title: "Spot News",
       body: "Newsletter Available!",
       icon: "assets/main-page-logo-small-hat.png",
       vibrate: [100, 50, 100],
@@ -37,9 +37,10 @@ export function sendNewsletter(req: Request, res: Response): void {
   };
 
   Promise.all(
-    USER_SUBSCRIPTIONS.map((sub) =>
-      webpush.sendNotification(sub, JSON.stringify(notificationPayload))
-    )
+    USER_SUBSCRIPTIONS.map((sub) => {
+      console.log(JSON.stringify(sub));
+      webpush.sendNotification(sub, JSON.stringify(notificationPayload));
+    })
   )
     .then(() =>
       res.status(200).json({ message: "Newsletter sent successfully." })

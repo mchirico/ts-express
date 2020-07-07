@@ -17,3 +17,4 @@ RUN npm install
 RUN firebase emulators:exec  --project 'septapig' 'npm test' --token "${FIREBASE_TOKEN}"
 RUN npm run build
 
+
