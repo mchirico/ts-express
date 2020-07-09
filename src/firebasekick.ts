@@ -11,6 +11,7 @@ import fs from "fs";
 
 import webpush from "web-push";
 import { USER_SUBSCRIPTIONS } from "./notification/in-memory-db";
+import DocumentSnapshot = admin.firestore.DocumentSnapshot;
 const vapidKeys = JSON.parse(
   fs.readFileSync("./credentials/vapid-key.json").toString()
 );
@@ -28,6 +29,7 @@ class FBK {
   set(path: string, data: DocumentData): Promise<WriteResult> | Promise<void> {
     return this.db.doc(path).set(data);
   }
+
   minutesLeft(path: string) {
     return this.db.doc(path).onSnapshot(
       (docSnapshot: any) => {
@@ -35,6 +37,97 @@ class FBK {
       },
       (err) => {
         console.log(`Encountered error: ${err}`);
+      }
+    );
+  }
+
+  archive(path: string, data: any) {
+    const d = new Date();
+    try {
+      this.db.doc(`pomodoro/u/archive/${path}/${d.toISOString()}`).set(data);
+    } catch (error) {
+      this.db.doc(`error/firebasekick/archive/${d.toISOString()}`).set({
+        error: error.message,
+      });
+    }
+    this.db.doc(`pomodoro/u/archive/${path}/${d.toISOString()}`).set(data);
+  }
+
+  onSnapshot2(
+    path: string,
+    key: string,
+    value: string,
+    changeType: string,
+    callback: any
+  ) {
+    const observer = this.db
+      .collection(path)
+      .where(key, "==", value)
+      .onSnapshot((querySnapshot: any) => {
+        querySnapshot.docChanges().forEach((change: any) => {
+          if (change.type === changeType) {
+            console.log("HIT: ", change.doc.data());
+            callback(change.doc.data());
+          }
+
+          if (change.type === "added") {
+            console.log("Added: ", change.doc.data());
+          }
+          if (change.type === "modified") {
+            console.log("Modified: ", change.doc.data());
+          }
+          if (change.type === "removed") {
+            console.log("Removed: ", change.doc.data());
+          }
+        });
+      });
+    return observer;
+  }
+
+  createSubscription(doc: DocumentData) {
+    const sub = {
+      endpoint: doc?.endpoint,
+      expirationTime: null,
+      keys: {
+        p256dh: doc?.p256dh,
+        auth: doc?.auth,
+      },
+    };
+
+    return sub;
+  }
+}
+
+export class ProcessTask {
+  constructor(
+    public db: admin.firestore.Firestore | firebase.firestore.Firestore
+  ) {}
+
+  process(path: string) {
+    const fbk = new FBK(this.db);
+    return fbk.onSnapshot2(
+      path,
+      "action",
+      "activate",
+      "added",
+      (doc: DocumentData) => {
+        const sub = fbk.createSubscription(doc);
+        console.log("calling sendMsg....");
+        sendMsg(sub, {
+          desc: doc?.desc,
+          minutes: doc?.minutes,
+        });
+
+        fbk.archive(path, doc);
+
+        this.db
+          .doc(path + "/0")
+          .delete()
+          .finally(() => {
+            console.log(``);
+            console.log(` clean up`);
+            console.log(``);
+          });
       }
     );
   }
@@ -48,7 +141,7 @@ export function sendMsg(sub: any, data: any): void {
   // sample notification payload
   const notificationPayload = {
     notification: {
-      title: "FB News..!!!",
+      title: `** ${data.desc} **`,
       body: `${data.desc}  minutes: ${data.minutes}`,
       icon: "assets/main-page-logo-small-hat.png",
       vibrate: [100, 50, 100],
@@ -69,47 +162,6 @@ export function sendMsg(sub: any, data: any): void {
   setTimeout(() => {
     webpush.sendNotification(sub, JSON.stringify(notificationPayload));
   }, 1000 * 60 * parseInt(data.minutes, 10));
-}
-
-// 'pomodoro/mchirico/tasks/0'
-export function onSnapshot(path: string): void {
-  db.doc(path).onSnapshot(
-    (docSnapshot) => {
-      console.log(`auth: ${docSnapshot.data()?.auth}`);
-      console.log(`endpoint: ${docSnapshot.data()?.endpoint}`);
-      console.log(`p256dh: ${docSnapshot.data()?.p256dh}`);
-      console.log(`desc: ${docSnapshot.data()?.desc}`);
-      console.log(`minutes: ${docSnapshot.data()?.minutes}`);
-
-      if (docSnapshot.data()?.endpoint) {
-        const sub = {
-          endpoint: docSnapshot.data()?.endpoint,
-          expirationTime: null,
-          keys: {
-            p256dh: docSnapshot.data()?.p256dh,
-            auth: docSnapshot.data()?.auth,
-          },
-        };
-
-        sendMsg(sub, {
-          desc: docSnapshot.data()?.desc,
-          minutes: docSnapshot.data()?.minutes,
-        });
-
-        db.doc(path)
-          .delete()
-          .catch((e) => console.log(`error:`, e.message))
-          .finally(() => {
-            console.log(``);
-            console.log(` clean up`);
-            console.log(``);
-          });
-      }
-    },
-    (err) => {
-      console.log(`Encountered error: ${err}`);
-    }
-  );
 }
 
 export { WriteResult, db, FBK };

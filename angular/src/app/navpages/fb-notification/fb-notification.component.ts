@@ -24,7 +24,8 @@ export class FbNotificationComponent implements OnInit {
       .then(sub => {
 
         this.sub = sub;
-        const data = {desc: this.desc, minutes: this.minutes};
+        const data = {desc: this.desc, minutes: this.minutes,
+        action: 'activate'};
 
         console.log('Notification Subscription: ', sub);
 
