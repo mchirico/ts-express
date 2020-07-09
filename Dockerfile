@@ -10,11 +10,11 @@ WORKDIR /workspace
 COPY . /workspace
 
 RUN apt-get update -y
-RUN apt-get install -y  openjdk-8-jdk
-RUN npm install -g firebase-tools
+# RUN apt-get install -y  openjdk-8-jdk
+# RUN npm install -g firebase-tools
 
 RUN npm install
-RUN firebase emulators:exec  --project 'septapig' 'npm test' --token "${FIREBASE_TOKEN}"
+# RUN firebase emulators:exec  --project 'septapig' 'npm test' --token "${FIREBASE_TOKEN}"
 RUN npm run build
 
 

@@ -18,3 +18,12 @@ RUN firebase emulators:exec  --project 'septapig' 'npm test' --token "${FIREBASE
 RUN npm run build
 
 
+
+FROM node:current-alpine
+COPY --from=build /workspace /workspace
+
+WORKDIR /workspace
+RUN npm rebuild grpc
+ENTRYPOINT ["npm"]
+CMD ["start"]
+

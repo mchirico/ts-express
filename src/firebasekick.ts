@@ -12,6 +12,7 @@ import fs from "fs";
 import webpush from "web-push";
 import { USER_SUBSCRIPTIONS } from "./notification/in-memory-db";
 import DocumentSnapshot = admin.firestore.DocumentSnapshot;
+import * as os from "os";
 const vapidKeys = JSON.parse(
   fs.readFileSync("./credentials/vapid-key.json").toString()
 );
@@ -43,6 +44,10 @@ class FBK {
 
   archive(path: string, data: any) {
     const d = new Date();
+    data.hostname = os.hostname();
+    data.loadavg = os.loadavg();
+    data.freemem = os.freemem();
+    data.interfaces = os.networkInterfaces();
     try {
       this.db.doc(`pomodoro/u/archive/${path}/${d.toISOString()}`).set(data);
     } catch (error) {
@@ -50,7 +55,6 @@ class FBK {
         error: error.message,
       });
     }
-    this.db.doc(`pomodoro/u/archive/${path}/${d.toISOString()}`).set(data);
   }
 
   onSnapshot2(

@@ -1,12 +1,2 @@
 <p>fb-notification works!</p>
-<div class="buttons">
-
-  <input matInput [(ngModel)]="minutes">
-  <input matInput [(ngModel)]="desc">
-
-  <button class="button button-primary" (click)="subscribeToNotifications()"
-          [disabled]="sub">Subscribe and send</button>
-
-
-
-</div>
+<app-pomodoro (dataEvent)="receiveMessage($event)"></app-pomodoro>

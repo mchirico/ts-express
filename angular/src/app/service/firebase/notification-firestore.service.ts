@@ -23,7 +23,7 @@ export class NotificationFirestoreService {
 
     // console.log('key p256dh', sub.toJSON().keys.p256dh);
     // console.log('key auth', sub.toJSON().keys.auth);
-    return of({one: 'one'}, {two: 'two'});
+    return of({one: 'one'}, {two: 'two'}, {three: 'three'});
   }
 
   send(): Observable<object> {
