@@ -17,7 +17,8 @@ export class NotificationFirestoreService {
       p256dh: sub.toJSON().keys.p256dh,
       auth: sub.toJSON().keys.auth,
       desc: data.desc,
-      minutes: data.minutes
+      minutes: data.minutes,
+      action: data.action
     });
 
     // console.log('key p256dh', sub.toJSON().keys.p256dh);

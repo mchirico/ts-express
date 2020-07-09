@@ -111,6 +111,7 @@ export class ProcessTask {
       "activate",
       "added",
       (doc: DocumentData) => {
+        console.log("before: fbk.createSubscription....");
         const sub = fbk.createSubscription(doc);
         console.log("calling sendMsg....");
         sendMsg(sub, {
@@ -118,7 +119,7 @@ export class ProcessTask {
           minutes: doc?.minutes,
         });
 
-        fbk.archive(path, doc);
+        fbk.archive(path + "/0", doc);
 
         this.db
           .doc(path + "/0")
