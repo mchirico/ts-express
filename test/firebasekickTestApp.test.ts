@@ -36,8 +36,8 @@ describe("FirebaseKick ...", function () {
 
   // TODO: You need the emulator for this test
   //   firebase emulators:start --project septapig
-  it("log", async function () {
-    const path = "/log/1";
+  it.skip("log", async function () {
+    const path = "log/test";
     const db = getDBadmin();
 
     await db.doc(path).delete();

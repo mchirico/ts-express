@@ -35,7 +35,9 @@ class FBK {
   log(path: string, data: DocumentData): Promise<WriteResult> | Promise<void> {
     const timeStamp = new Date();
     data.timeStamp = timeStamp.toDateString();
-    return this.db.doc(path).set(data);
+    return this.db
+      .doc(`${path}/timeStamp/${timeStamp.toISOString()}`)
+      .set(data);
   }
 
   minutesLeft(path: string) {
@@ -130,11 +132,13 @@ export class ProcessTask {
           {
             desc: doc?.desc,
             minutes: doc?.minutes,
+            uuid: doc?.uuid,
           },
           () => {
             fbk.log("/log/pomodoro/mchirico/fired", {
               desc: doc?.desc,
               minutes: doc?.minutes,
+              uuid: doc?.uuid,
             });
           }
         );
