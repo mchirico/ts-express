@@ -33,9 +33,10 @@ class FBK {
   }
 
   log(path: string, data: DocumentData): Promise<WriteResult> | Promise<void> {
+    const timeStamp = new Date();
+    data.timeStamp = timeStamp.toDateString();
     return this.db.doc(path).set(data);
   }
-
 
   minutesLeft(path: string) {
     return this.db.doc(path).onSnapshot(
