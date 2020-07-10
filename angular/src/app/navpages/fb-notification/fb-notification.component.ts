@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SwPush} from '@angular/service-worker';
 import {NotificationFirestoreService} from '../../service/firebase/notification-firestore.service';
 
@@ -13,30 +13,48 @@ export class FbNotificationComponent implements OnInit {
   minutes = 20;
   desc = 'desc';
 
-  constructor( private swPush: SwPush,
-               private newsletterService: NotificationFirestoreService) { }
+  constructor(private swPush: SwPush,
+              private newsletterService: NotificationFirestoreService) {
+  }
 
-  subscribeToNotifications(): void {
 
+  sendSubscription(desc: string, minutes: number): void {
+    let count = 0;
+    this.desc = desc;
+    this.minutes = minutes;
     this.swPush.requestSubscription({
       serverPublicKey: this.VAPID_PUBLIC_KEY
     })
       .then(sub => {
 
         this.sub = sub;
-        const data = {desc: this.desc, minutes: this.minutes,
-        action: 'activate'};
+        const data = {
+          desc: this.desc, minutes: this.minutes,
+          action: 'activate'
+        };
 
         console.log('Notification Subscription: ', sub);
 
         this.newsletterService.addPushSubscriber(sub, data).subscribe(
-          () => console.log('Sent push subscription object to server.'),
-          err =>  console.log('Could not send subscription object to server, reason: ', err)
+          () => {
+            count += 1;
+            console.log(`${count} Sent push subscription object to server.`);
+          },
+          err => console.log('Could not send subscription object to server, reason: ', err)
         );
 
       })
       .catch(err => console.error('Could not subscribe to notifications', err));
 
+
+  }
+
+
+
+  receiveMessage($event): void {
+    this.sendSubscription($event.description, $event.minutes);
+    console.log('sent: this.subscribeToNotifications();');
+    console.log('$event.description: ', $event.description);
   }
 
   sendNewsletter(): void {

@@ -13,6 +13,7 @@ export interface Data {
   status: string;
   tag: string;
   description: string;
+  action: string;
 }
 
 @Injectable({
@@ -30,13 +31,11 @@ export class DataService {
     // this.collection = afs.collection<Data>('pomodoro/mchirico/tasks')
     // this.data = this.collection.valueChanges();
     // this.now = new Date();
-
-    this.dataDoc = afs.doc<Data>('pomodoro/mchirico/tasks/0');
+    // const timeStamp = new Date();
+    this.dataDoc = afs.doc<Data>(`pomodoro/mchirico/tasks/0`);
     this.data = this.dataDoc.valueChanges();
-
-
-
   }
+
   addData(data: Data): void {
 
     this.dataDoc.set(data).catch(e => {

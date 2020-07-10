@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, Output, EventEmitter} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {DataService, Data} from '../../service/firebase/pomodoro/data.service';
 import {AngularFireAuth} from '@angular/fire/auth';
@@ -12,6 +12,7 @@ export interface DialogData {
   name: string;
   tag: string;
   description: string;
+  action: string;
 }
 
 
@@ -21,9 +22,12 @@ export interface DialogData {
   styleUrls: ['./pomodoro.component.css']
 })
 export class PomodoroComponent implements OnInit {
+  @Output() dataEvent = new EventEmitter<DialogData>();
+
   name: string;
   minutes: string;
-  data: Data = {date: '', description: '', id: uuid(), minutes: 0, name: '', status: '', tag: '', timeStamp: undefined};
+  data: Data = {date: '', description: '', id: uuid(), minutes: 0, name: '', status: '', tag: '',
+    timeStamp: undefined, action: 'active'};
 
   constructor(public dialog: MatDialog,
               public dataService: DataService,
@@ -58,6 +62,10 @@ export class PomodoroComponent implements OnInit {
     });
   }
 
+  sendMessage(data: DialogData): void {
+    this.dataEvent.emit(data);
+  }
+
   updateFirebase(): void {
 
     const timeStamp = new Date();
@@ -66,8 +74,11 @@ export class PomodoroComponent implements OnInit {
     this.data.timeStamp = timeStamp;
     this.data.date = timeStamp.toDateString();
     this.data.status = 'active';
-    this.dataService.addData(this.data);
 
+    const emitData: DialogData = {action: 'active',
+      name: this.name, description: this.data.description, minutes:
+    this.data.minutes, tag: this.data.tag};
+    this.sendMessage(emitData);
   }
 
 
