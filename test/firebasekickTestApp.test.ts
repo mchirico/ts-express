@@ -36,6 +36,27 @@ describe("FirebaseKick ...", function () {
 
   // TODO: You need the emulator for this test
   //   firebase emulators:start --project septapig
+  it("log", async function () {
+    const path = "/log/1";
+    const db = getDBadmin();
+
+    await db.doc(path).delete();
+    const fbk = new FBK(db);
+    await fbk.log(path, { data: "works" });
+    const testQuery = db.doc(path);
+    const doc = await testQuery.get();
+
+    if (!doc.exists) {
+      console.log("No such document!");
+    } else {
+      console.log("Document data:", doc.data());
+      expect(doc.data()?.timeStamp).to.exist;
+    }
+    expect(doc.exists).to.exist;
+
+    await firebase.assertSucceeds(testQuery.get());
+  });
+
   it("Test snapshot2 ", async function () {
     const path = "/items/1";
     const db = getDBadmin();
