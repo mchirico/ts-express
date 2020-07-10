@@ -19,6 +19,13 @@ For live pull of pubSub messages reference:
 <a href='https://github.com/mchirico/go-pubsub'>https://github.com/mchirico/go-pubsub</a>
 
 
+# Testing (Will need to enable Firebase emulator)
+
+```
+firebase emulators:start
+```
+
+
 # upgrade
 
 ```
