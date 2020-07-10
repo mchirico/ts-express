@@ -27,7 +27,14 @@ class FBK {
   constructor(
     public db: admin.firestore.Firestore | firebase.firestore.Firestore
   ) {}
+
   set(path: string, data: DocumentData): Promise<WriteResult> | Promise<void> {
+    return this.db.doc(path).set(data);
+  }
+
+  log(path: string, data: DocumentData): Promise<WriteResult> | Promise<void> {
+    const timeStamp = new Date();
+    data.timeStamp = timeStamp.toDateString();
     return this.db.doc(path).set(data);
   }
 
@@ -118,10 +125,19 @@ export class ProcessTask {
         console.log("before: fbk.createSubscription....");
         const sub = fbk.createSubscription(doc);
         console.log("calling sendMsg....");
-        sendMsg(sub, {
-          desc: doc?.desc,
-          minutes: doc?.minutes,
-        });
+        sendMsg(
+          sub,
+          {
+            desc: doc?.desc,
+            minutes: doc?.minutes,
+          },
+          () => {
+            fbk.log("/log/pomodoro/mchirico/fired", {
+              desc: doc?.desc,
+              minutes: doc?.minutes,
+            });
+          }
+        );
 
         fbk.archive(path + "/0", doc);
 
@@ -142,7 +158,7 @@ export function set(path: string, data: DocumentData): Promise<WriteResult> {
   return db.doc(path).set(data);
 }
 
-export function sendMsg(sub: any, data: any): void {
+export function sendMsg(sub: any, data: any, callback: any): void {
   // sample notification payload
   const notificationPayload = {
     notification: {
@@ -165,6 +181,7 @@ export function sendMsg(sub: any, data: any): void {
 
   //console.log(JSON.stringify(sub));
   setTimeout(() => {
+    callback();
     webpush.sendNotification(sub, JSON.stringify(notificationPayload));
   }, 1000 * 60 * parseInt(data.minutes, 10));
 }
