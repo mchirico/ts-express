@@ -73,7 +73,7 @@ export class PomodoroComponent implements OnInit {
     this.data.name = this.name;
     this.data.minutes = parseInt(this.minutes, 10);
     this.data.timeStamp = timeStamp;
-    this.data.date = timeStamp.toDateString();
+    this.data.date = timeStamp.toISOString();
     this.data.status = 'active';
 
     const emitData: DialogData = {action: 'active',

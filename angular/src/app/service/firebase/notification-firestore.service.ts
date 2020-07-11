@@ -12,6 +12,7 @@ export class NotificationFirestoreService {
 
   addPushSubscriber(sub: any, data: any): Observable<object> {
     console.log('2 wee!... made it!!', sub);
+    const timeAdded = new Date();
     this.dataService.addDataAny({endpoint: sub.endpoint,
       expirationTime: sub.expirationTime,
       p256dh: sub.toJSON().keys.p256dh,
@@ -20,6 +21,7 @@ export class NotificationFirestoreService {
       minutes: data.minutes,
       action: data.action,
       uuid: data.uuid,
+      timeAdded: timeAdded.toUTCString(),
     });
 
     // console.log('key p256dh', sub.toJSON().keys.p256dh);

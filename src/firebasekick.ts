@@ -34,7 +34,7 @@ class FBK {
 
   log(path: string, data: DocumentData): Promise<WriteResult> | Promise<void> {
     const timeStamp = new Date();
-    data.timeStamp = timeStamp.toDateString();
+    data.timeStamp = timeStamp.toISOString();
     return this.db
       .doc(`${path}/timeStamp/${timeStamp.toISOString()}`)
       .set(data);
