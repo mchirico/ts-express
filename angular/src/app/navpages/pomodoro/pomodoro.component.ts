@@ -13,6 +13,7 @@ export interface DialogData {
   tag: string;
   description: string;
   action: string;
+  uuid: string;
 }
 
 
@@ -77,7 +78,7 @@ export class PomodoroComponent implements OnInit {
 
     const emitData: DialogData = {action: 'active',
       name: this.name, description: this.data.description, minutes:
-    this.data.minutes, tag: this.data.tag};
+    this.data.minutes, tag: this.data.tag, uuid: uuid()};
     this.sendMessage(emitData);
   }
 

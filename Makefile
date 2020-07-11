@@ -35,7 +35,7 @@ deploy:
 	gcloud builds submit --tag gcr.io/$(PROJECT)/$(NAME)cloud --project $(PROJECT) --timeout 35m23s
 	gcloud run deploy $(NAME)cloud --image gcr.io/$(PROJECT)/$(NAME)cloud \
               --platform managed --allow-unauthenticated --project $(PROJECT) \
-              --region us-east1 --port 3000 --max-instances 3  --memory 128Mi
+              --region us-east1 --port 3000 --max-instances 3  --memory 256Mi
 
 
 sh:

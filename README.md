@@ -15,6 +15,15 @@ StackBlitz [ts-express](https://stackblitz.com/github/mchirico/ts-express/tree/m
 This is meant to be a very simple starter project, for quickly
 testing Typescript code. It does contain angular 10
 
+## Running Tests
+
+Run the Firebase emulator when testing.
+
+```
+firebase emulators:start
+```
+
+
 For live pull of pubSub messages reference: 
 <a href='https://github.com/mchirico/go-pubsub'>https://github.com/mchirico/go-pubsub</a>
 

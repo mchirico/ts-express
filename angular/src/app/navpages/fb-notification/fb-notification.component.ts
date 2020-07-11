@@ -12,16 +12,18 @@ export class FbNotificationComponent implements OnInit {
   readonly VAPID_PUBLIC_KEY = 'BM0lKvFxWsyi6sjmH5PWdJqE6qTNcH6Uh4jWR6yr2NTYYpnTUuxDaoPAnAJjN3lDC1mCzlCuCHbMhKerA1gBr-A';
   minutes = 20;
   desc = 'desc';
+  uuid;
 
   constructor(private swPush: SwPush,
               private newsletterService: NotificationFirestoreService) {
   }
 
 
-  sendSubscription(desc: string, minutes: number): void {
+  sendSubscription(desc: string, minutes: number, uuid: string): void {
     let count = 0;
     this.desc = desc;
     this.minutes = minutes;
+    this.uuid = uuid;
     this.swPush.requestSubscription({
       serverPublicKey: this.VAPID_PUBLIC_KEY
     })
@@ -30,7 +32,8 @@ export class FbNotificationComponent implements OnInit {
         this.sub = sub;
         const data = {
           desc: this.desc, minutes: this.minutes,
-          action: 'activate'
+          action: 'activate',
+          uuid: this.uuid
         };
 
         console.log('Notification Subscription: ', sub);
@@ -52,7 +55,7 @@ export class FbNotificationComponent implements OnInit {
 
 
   receiveMessage($event): void {
-    this.sendSubscription($event.description, $event.minutes);
+    this.sendSubscription($event.description, $event.minutes, $event.uuid);
     console.log('sent: this.subscribeToNotifications();');
     console.log('$event.description: ', $event.description);
   }
