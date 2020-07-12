@@ -81,6 +81,33 @@ describe('NavbarComponent', () => {
 
   }));
 
+  it('actual calls', fakeAsync(() => {
+
+
+    const expectedArray = [
+      ['Home', '/home'],
+      ['Info', '/info'],
+      ['Page0', '/page0'],
+      ['SVG', '/svg'],
+      ['Auth', '/auth'],
+      ['Notification', '/notification'],
+      ['Pomodoro', '/pomodoro'],
+      ['FB-Notification', '/fbnotification'],
+    ];
+    expectedArray.forEach((value, index) => {
+
+      component.navigateMenu(value[0]);
+      tick();
+      expect(location.path()).toBe(value[1]);
+
+      console.log(index);
+      console.log(value[0], value[1]);
+    });
+
+
+  }));
+
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
