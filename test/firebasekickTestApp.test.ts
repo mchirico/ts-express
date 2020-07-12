@@ -3,14 +3,21 @@ import "mocha";
 import * as firebase from "@firebase/testing";
 import { FBK, set } from "../src/firebasekick";
 import admin from "firebase-admin";
-import DocumentData = admin.firestore.DocumentData;
 import { expect } from "chai";
+import * as sinon from "sinon";
+import DocumentData = admin.firestore.DocumentData;
+import DocumentReference = admin.firestore.DocumentReference;
+import { clearFirestoreData } from "@firebase/testing";
 
 // Manual testing:
 //   firebase emulators:start
 const MY_PROJECT_ID = "septapig";
 
 const myAuth = { uid: "user_abc", email: "abc@gmail.com", admin: true };
+
+function timeout(ms: number): Promise<any> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 function getDBuser(): firebase.firestore.Firestore {
   return firebase
@@ -29,14 +36,32 @@ function getDBadmin(): firebase.firestore.Firestore {
     .firestore();
 }
 
+let lastPath = "";
+
+function fakeDoc(path: string): DocumentReference<DocumentData> | any {
+  const mdb = getDBadmin();
+  console.log("path:", path);
+
+  lastPath = path;
+  const newpath = path.replace(/\//g, "_");
+  console.log("**********************************************");
+  console.log("   (below)");
+  console.log(`true path:\n  test/${newpath}`);
+  return mdb.doc(`test/${newpath}`);
+}
+
 describe("FirebaseKick ...", function () {
+  before(async function () {
+    await clearFirestoreData({ projectId: MY_PROJECT_ID });
+  });
+
   afterEach(async function () {
     await Promise.all(firebase.apps().map((app) => app.delete()));
   });
 
   // TODO: You need the emulator for this test
   //   firebase emulators:start --project septapig
-  it.skip("log", async function () {
+  it("log", async function () {
     const path = "log/test";
     const db = getDBadmin();
 
@@ -85,6 +110,7 @@ describe("FirebaseKick ...", function () {
       minutes: 20,
     });
 
+    obs();
     const testQuery = db.doc(path);
     await firebase.assertSucceeds(testQuery.get());
   });
@@ -98,6 +124,17 @@ describe("FirebaseKick ...", function () {
 
     const testQuery = db.doc(path);
     await firebase.assertSucceeds(testQuery.get());
+    // Check results
+    const dataRef = db.doc(path);
+    const doc = await dataRef.get();
+    if (!doc.exists) {
+      console.log("No such document!");
+    } else {
+      console.log("Document data:", doc.data());
+    }
+    await firebase.assertSucceeds(doc.data()?.data);
+    expect(await doc.data()?.data).to.equal("works");
+    await console.log("here: ", doc.data()?.data);
   });
 
   it("Test snapshot listener0", async function () {
@@ -127,5 +164,116 @@ describe("FirebaseKick ...", function () {
     await set(path, { data: "here " }).catch((e) => {
       console.log(`error: ${e.message}`);
     });
+  });
+
+  it("Test db.doc(path).set({...})", async function () {
+    const path = "/items/1";
+    const db = getDBadmin();
+
+    const docStub = sinon.stub(db, "doc").callsFake(fakeDoc);
+    await db.doc(path).set({ junk: "here 1 2 3" });
+
+    const testQuery = db.doc(path);
+    await firebase.assertSucceeds(testQuery.get());
+
+    const dataRef = db.doc(path);
+    const doc = await dataRef.get();
+    if (!doc.exists) {
+      console.log("No such document!");
+    } else {
+      console.log("Document data:", doc.data());
+    }
+    expect(doc.data()?.junk).to.equal("here 1 2 3");
+    docStub.restore();
+  });
+});
+
+describe("Fake tests ...", function () {
+  let db: any;
+  before(async function () {
+    db = getDBadmin();
+    await clearFirestoreData({ projectId: MY_PROJECT_ID });
+  });
+
+  afterEach(async function () {
+    await Promise.all(firebase.apps().map((app) => app.delete()));
+  });
+
+  // after(async function () {
+  //   await clearFirestoreData({ projectId: MY_PROJECT_ID });
+  // });
+
+  it("should log", async function () {
+    const path = "/items/1";
+
+    const docStub = sinon.stub(db, "doc").callsFake(fakeDoc);
+
+    // const clock = sinon.useFakeTimers({
+    //   now: new Date(2019, 1, 1, 0, 0),
+    //   shouldAdvanceTime: true,
+    // });
+
+    const fbk = new FBK(db);
+
+    await fbk.log(path, { data: "example" });
+    // clock.restore();
+    // await timeout(500);
+
+    // const epath = "/items/1/timeStamp/2019-02-01T05:00:00.000Z";
+    const epath = lastPath;
+
+    const testQuery = db.doc(epath);
+    await firebase.assertSucceeds(testQuery.get());
+
+    const dataRef = db.doc(epath);
+    const doc = await dataRef.get();
+    if (!doc.exists) {
+      console.log("No such document!");
+    } else {
+      console.log("Document data:", doc.data());
+    }
+
+    const earray = epath.split("/");
+    const expectedDate = earray[earray.length - 1];
+
+    expect(doc.data()?.timeStamp).to.equal(expectedDate);
+    docStub.restore();
+  });
+
+  it("should archive", async function () {
+    const path = "/items/1";
+    const db = getDBadmin();
+    const docStub = sinon.stub(db, "doc").callsFake(fakeDoc);
+
+    const fbk = new FBK(db);
+
+    fbk.archive(path, { data: "example" });
+
+    console.log("here...");
+    await timeout(500);
+
+    console.log("here 3");
+
+    //const epath = "pomodoro/u/archive//items/1/2019-02-01T05:00:00.000Z";
+    const epath = lastPath;
+
+    const testQuery = db.doc(epath);
+    await firebase.assertSucceeds(testQuery.get());
+
+    const dataRef = db.doc(epath);
+    //const doc = await dataRef.get();
+    const doc = await firebase.assertSucceeds(dataRef.get());
+    if (!doc.exists) {
+      console.log("No such document!");
+    } else {
+      console.log("Document data:", doc.data());
+    }
+
+    expect(doc.data()?.hostname).to.exist;
+    expect(doc.data()?.loadavg).to.exist;
+    expect(doc.data()?.freemem).to.exist;
+    expect(doc.data()?.interfaces).to.exist;
+
+    docStub.restore();
   });
 });
