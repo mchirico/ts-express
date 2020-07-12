@@ -4,7 +4,11 @@
 
 # ts-express
 
-Typescript starter project. 
+Typescript project:
+
+- Node backend
+- Angular front-end 
+- Firebase 
 
 Live demo [tsexpress.cwxstat.io](https://tsexpress.cwxstat.io/) Make sure
 you install all missing packages.
