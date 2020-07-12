@@ -1,0 +1,124 @@
+name: Angular
+
+on:
+  push:
+    branches:
+      - deploy
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    if: github.actor == github.event.repository.owner.login
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    # Setup gcloud CLI
+    - uses: mchirico/gcp-actions@v1
+      with:
+        version: 'latest'
+        service_account_key: ${{ secrets.OWNER }}
+
+    # Configure docker to use the gcloud command-line tool as a credential helper
+    - run: |
+        # Set up docker to authenticate
+        # via gcloud command-line tool.
+        gcloud auth configure-docker
+        gcloud components update --quiet
+
+    # Credentials
+    - name: Get and Create Credentials
+      run: |
+       mkdir -p credentials
+       gsutil cp gs://nodesepta/ts-express/credentials/* ./credentials/.
+       mkdir -p angular/src/environments
+       gsutil cp gs://nodesepta/ts-express/environments/* ./angular/src/environments/.
+
+
+    - name: Install ChromeDriver
+      run: |
+        CHROME_VERSION=$(google-chrome --version | cut -f 3 -d ' ' | cut -d '.' -f 1) \
+          && CHROMEDRIVER_RELEASE=$(curl --location --fail --retry 3 http://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}) \
+          && curl --silent --show-error --location --fail --retry 3 --output /tmp/chromedriver_linux64.zip "http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_RELEASE/chromedriver_linux64.zip" \
+          && cd /tmp \
+          && unzip chromedriver_linux64.zip \
+          && rm -rf chromedriver_linux64.zip \
+          && sudo mv chromedriver /usr/local/bin/chromedriver \
+          && sudo chmod +x /usr/local/bin/chromedriver \
+          && chromedriver --version
+
+    # ng command for Angular
+    - name: ng command for Angular
+      run: |
+         npm install -g @angular/cli
+
+
+    # Angular install and test
+    - name: Angular install and test
+      run: |
+         cd angular
+         npm install
+         ng lint
+         npm run test -- --no-watch --code-coverage --no-progress --browsers=ChromeHeadlessCI
+         npm run coverage
+      env:
+        CI: true
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+
+    # Firebase Emulator
+    - name: Firebase Emulator
+      run: |
+        sudo npm install -g firebase-tools
+
+
+    # NPM test
+    - name: npm test
+      run: |
+        npm install
+        firebase emulators:exec  --project 'septapig' 'npm test' --token "${FIREBASE_TOKEN}"
+        bash <(curl -s https://codecov.io/bash)
+      env:
+        CI: true
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+
+    # Deploy
+    - name: deploy
+      run: |
+        rm -rf static
+        (cd angular && ./updateStatic.sh)
+        gcloud config set gcloudignore/enabled false --project cwxstat-23
+        gcloud builds submit --tag gcr.io/cwxstat-23/tsexpresscloud --project cwxstat-23 --timeout 35m23s
+        gcloud run deploy tsexpresscloud --image gcr.io/cwxstat-23/tsexpresscloud \
+              --platform managed --allow-unauthenticated --project cwxstat-23 \
+              --region us-east1 --port 3000 --max-instances 3  --memory 256Mi
+
+      env:
+        CI: true
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+
+
+    # BigQuery
+    - name: Working with BigQuery
+      run: |
+       txt="Deploy ts-express"
+       bq query --nouse_legacy_sql 'CREATE TABLE IF NOT EXISTS  `septapig.github.log` (msg string, timeEnter timestamp);'
+       bq query --nouse_legacy_sql  --parameter=MSG:STRING:"${txt}"  'insert into `septapig.github.log` (msg,timeEnter) values (@MSG,CURRENT_TIMESTAMP())'
+
+
+
+
