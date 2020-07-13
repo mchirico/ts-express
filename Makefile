@@ -1,6 +1,16 @@
 PROJECT = cwxstat-23
 NAME = tsexpress
 TAG = dev
+TEST = test
+QT = qt
+
+docker-qt:
+	rm -rf static
+	(cd angular && ./updateStatic.sh)
+	docker build --build-arg var_firebase="${FIREBASE_TOKEN}" -t gcr.io/$(PROJECT)/$(NAME):$(QT) -f Dockerfile_qt .
+
+docker-test:
+	docker build --build-arg var_firebase="${FIREBASE_TOKEN}" -t gcr.io/$(PROJECT)/$(NAME):$(TEST) -f Dockerfile_test .
 
 
 docker-build:

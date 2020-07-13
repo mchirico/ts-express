@@ -1,0 +1,10 @@
+FROM node AS build
+
+
+RUN apt-get update -y
+RUN apt-get install -y  openjdk-8-jdk
+RUN npm install -g firebase-tools
+
+
+
+

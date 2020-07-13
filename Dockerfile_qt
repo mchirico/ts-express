@@ -1,0 +1,14 @@
+FROM gcr.io/cwxstat-23/tsexpress:test AS build
+
+
+ADD . ${FIREBASE_TOKEN}
+
+RUN mkdir /workspace
+WORKDIR /workspace
+COPY . /workspace
+
+
+RUN npm install
+#RUN firebase emulators:exec  --project 'septapig' 'npm test' --token "${FIREBASE_TOKEN}"
+
+
