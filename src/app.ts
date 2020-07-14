@@ -17,10 +17,11 @@ const corsOptions = {
 };
 
 export const getApp = (): Express => {
-  // FIXME: test take out
+  // FIXME: clean up
 
   const processTask = new ProcessTask(db);
-  processTask.process("pomodoro/mchirico/tasks");
+  const fbk = new FBK(db);
+  processTask.process(fbk, "pomodoro/mchirico/tasks");
 
   const app = express();
   app.use(bodyParser.urlencoded({ extended: false }));
