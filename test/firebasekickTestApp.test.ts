@@ -8,6 +8,7 @@ import * as sinon from "sinon";
 import DocumentData = admin.firestore.DocumentData;
 import DocumentReference = admin.firestore.DocumentReference;
 import { clearFirestoreData } from "@firebase/testing";
+import webpush from "web-push";
 
 // Manual testing:
 //   firebase emulators:start
@@ -279,18 +280,36 @@ describe("Process tests ...", function () {
   });
 
   it("should process", async function () {
-    const path = "/items/1/process";
+    const path = "snap";
 
     const docStub = sinon.stub(db, "doc").callsFake(fakeDoc);
     const fbk = new FBK(db);
-    const onSnapStub = sinon.stub(fbk, "onSnapshot2").resolves(3);
+    const archiveStub = sinon.stub(fbk, "archive").resolves(3);
+    const wStub = sinon.stub(webpush, "sendNotification");
 
     const processTask = new ProcessTask(db);
-    processTask.process(fbk, path);
+    const obs = processTask.process(fbk, "test");
 
-    expect(onSnapStub.firstCall.args).to.include("activate");
-    expect(onSnapStub.firstCall.args).to.include("action");
-    console.log("done...process");
+    await db.doc(path).set({
+      action: "activate",
+      desc: "test",
+      uuid: "0",
+      p256dh: "p256dh",
+      minutes: 0.0001,
+    });
+
+    await db
+      .doc("/0")
+      .set({ action: "activate", desc: "test", uuid: "0", minutes: 0.0001 });
+
+    const testQuery = db.doc(path);
+    await firebase.assertSucceeds(testQuery.get());
+
+    console.log(archiveStub.firstCall.args);
+    console.log("......................");
+    console.log(wStub.firstCall.lastArg);
+    expect(wStub.firstCall.lastArg).to.include("test  minutes: 0.0001");
     sinon.reset();
+    obs();
   });
 });
