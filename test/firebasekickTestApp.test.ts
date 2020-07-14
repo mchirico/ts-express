@@ -1,7 +1,7 @@
 import "mocha";
 
 import * as firebase from "@firebase/testing";
-import { FBK, set } from "../src/firebasekick";
+import { FBK, set, ProcessTask } from "../src/firebasekick";
 import admin from "firebase-admin";
 import { expect } from "chai";
 import * as sinon from "sinon";
@@ -127,6 +127,7 @@ describe("FirebaseKick ...", function () {
     // Check results
     const dataRef = db.doc(path);
     const doc = await dataRef.get();
+
     if (!doc.exists) {
       console.log("No such document!");
     } else {
@@ -199,27 +200,15 @@ describe("Fake tests ...", function () {
     await Promise.all(firebase.apps().map((app) => app.delete()));
   });
 
-  // after(async function () {
-  //   await clearFirestoreData({ projectId: MY_PROJECT_ID });
-  // });
-
   it("should log", async function () {
     const path = "/items/1";
 
     const docStub = sinon.stub(db, "doc").callsFake(fakeDoc);
 
-    // const clock = sinon.useFakeTimers({
-    //   now: new Date(2019, 1, 1, 0, 0),
-    //   shouldAdvanceTime: true,
-    // });
-
     const fbk = new FBK(db);
 
     await fbk.log(path, { data: "example" });
-    // clock.restore();
-    // await timeout(500);
 
-    // const epath = "/items/1/timeStamp/2019-02-01T05:00:00.000Z";
     const epath = lastPath;
 
     const testQuery = db.doc(epath);
@@ -275,5 +264,33 @@ describe("Fake tests ...", function () {
     expect(doc.data()?.interfaces).to.exist;
 
     docStub.restore();
+  });
+});
+
+describe("Process tests ...", function () {
+  let db: any;
+  before(async function () {
+    db = getDBadmin();
+    await clearFirestoreData({ projectId: MY_PROJECT_ID });
+  });
+
+  afterEach(async function () {
+    await Promise.all(firebase.apps().map((app) => app.delete()));
+  });
+
+  it("should process", async function () {
+    const path = "/items/1/process";
+
+    const docStub = sinon.stub(db, "doc").callsFake(fakeDoc);
+    const fbk = new FBK(db);
+    const onSnapStub = sinon.stub(fbk, "onSnapshot2").resolves(3);
+
+    const processTask = new ProcessTask(db);
+    processTask.process(fbk, path);
+
+    expect(onSnapStub.firstCall.args).to.include("activate");
+    expect(onSnapStub.firstCall.args).to.include("action");
+    console.log("done...process");
+    sinon.reset();
   });
 });

@@ -116,8 +116,8 @@ export class ProcessTask {
     public db: admin.firestore.Firestore | firebase.firestore.Firestore
   ) {}
 
-  process(path: string) {
-    const fbk = new FBK(this.db);
+  process(fbk: FBK, path: string) {
+    //const fbk = new FBK(this.db);
     return fbk.onSnapshot2(
       path,
       "action",
