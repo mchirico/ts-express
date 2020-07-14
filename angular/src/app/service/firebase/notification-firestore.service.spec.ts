@@ -13,12 +13,10 @@ class SUB {
   toJSON(): any  {
     return this;
   }
-
 }
 
 class TestDataService {
  addDataAny(data: any): any {
-
  }
 }
 
@@ -41,7 +39,6 @@ describe('NotificationFirestoreService', () => {
   });
 
   it('can call addPushSubscriber', () => {
-
 
     const sub = new SUB();
     console.log(sub.toJSON().keys.p256dh);
