@@ -8,14 +8,27 @@ import {Observable, of} from 'rxjs';
 
 class TestNotificationPostService{
   test = false;
+  calledArray: string[] = [];
 
   addPushSubscriber(sub: PushSubscription): Observable<object> {
     this.test = true;
+    this.calledArray.push('addPushSubscriber');
     return of({body: 'data'});
   }
+
+  send(): Observable<object>|Observable<any> {
+    this.calledArray.push('send');
+    return of('done');
+  }
+
 // TODO: Fix so don't need timeout
   get status(): boolean {
     return this.test;
+  }
+  get called(): string[] {
+    const cpy = [...this.calledArray];
+    this.calledArray = [];
+    return cpy;
   }
 }
 
@@ -37,6 +50,8 @@ class TestSwUpdate {
     });
 
   }
+
+
 
   get called(): number {
     return this.count;
@@ -86,6 +101,18 @@ describe('NotificationComponent...', () => {
       expect(testNotificationService.status).toBeTrue();
 
       }, 500);
+
+
+  });
+
+  it('should sendNewsletter', async () => {
+    component.sendNewsletter();
+    expect(testNotificationService.calledArray).toContain('send');
+    await setTimeout(() => {
+      console.log('Status Complete');
+      expect(testNotificationService.status).toBeTrue();
+
+    }, 500);
 
 
   });
