@@ -40,17 +40,6 @@ class FBK {
       .set(data);
   }
 
-  minutesLeft(path: string) {
-    return this.db.doc(path).onSnapshot(
-      (docSnapshot: any) => {
-        console.log(`Received doc snapshot: ${docSnapshot.data()?.minutes}`);
-      },
-      (err) => {
-        console.log(`Encountered error: ${err}`);
-      }
-    );
-  }
-
   archive(path: string, data: any) {
     const d = new Date();
     data.hostname = os.hostname();
