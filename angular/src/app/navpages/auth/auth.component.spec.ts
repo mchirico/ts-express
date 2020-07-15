@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthComponent } from './auth.component';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {auth} from 'firebase';
 
 describe('AuthComponent', () => {
   let component: AuthComponent;
@@ -9,6 +10,8 @@ describe('AuthComponent', () => {
 
   const valueAngularFireAuthSpy = jasmine.createSpyObj('AngularFireAuth',
     ['signInWithPopup', 'signOut']);
+
+  valueAngularFireAuthSpy.signInWithPopup.withArgs(new auth.GoogleAuthProvider());
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -36,5 +39,10 @@ describe('AuthComponent', () => {
   it('should logout', () => {
     component.logout();
     expect(valueAngularFireAuthSpy.signOut).toHaveBeenCalled();
+  });
+
+  it('should login', () => {
+    component.login();
+    expect(valueAngularFireAuthSpy.signInWithPopup).toHaveBeenCalled();
   });
 });
