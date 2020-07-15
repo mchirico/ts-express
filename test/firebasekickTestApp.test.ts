@@ -88,7 +88,6 @@ describe("FirebaseKick ...", function () {
     const db = getDBadmin();
     const fbk = new FBK(db);
     await fbk.set(path, { action: "hold", fb: "yes...fbk", minutes: 20 });
-    await fbk.minutesLeft(path);
 
     const obs = fbk.onSnapshot2(
       "items",
@@ -121,7 +120,6 @@ describe("FirebaseKick ...", function () {
     const db = getDBadmin();
     const fbk = new FBK(db);
     await fbk.set(path, { data: "works", fb: "yes...fbk", minutes: 20 });
-    await fbk.minutesLeft(path);
 
     const testQuery = db.doc(path);
     await firebase.assertSucceeds(testQuery.get());
@@ -309,6 +307,58 @@ describe("Process tests ...", function () {
     console.log("......................");
     console.log(wStub.firstCall.lastArg);
     expect(wStub.firstCall.lastArg).to.include("test  minutes: 0.0001");
+    sinon.reset();
+    obs();
+  });
+});
+
+describe("Edge cases ...", function () {
+  let db: any;
+  before(async function () {
+    db = getDBadmin();
+    await clearFirestoreData({ projectId: MY_PROJECT_ID });
+  });
+
+  afterEach(async function () {
+    await Promise.all(firebase.apps().map((app) => app.delete()));
+  });
+
+  it("onSnapShot2 modified", async function () {
+    const path = "snap/1";
+
+    const docStub = sinon.stub(db, "doc").callsFake(fakeDoc);
+    const fbk = new FBK(db);
+
+    const obs = fbk.onSnapshot2(
+      "test",
+      "action",
+      "activate",
+      "modified",
+      (doc: any) => {
+        console.log("...................callback:", doc?.desc);
+        expect(doc?.desc).to.equal("test modified");
+      }
+    );
+
+    await db.doc(path).set({
+      action: "activate",
+      desc: "test added",
+      uuid: "0",
+      p256dh: "p256dh",
+      minutes: 0.0001,
+    });
+
+    await db.doc(path).set({
+      action: "activate",
+      desc: "test modified",
+      uuid: "0",
+      p256dh: "p256dh",
+      minutes: 0.0001,
+    });
+
+    const testQuery = db.doc(path);
+    await firebase.assertSucceeds(testQuery.get());
+
     sinon.reset();
     obs();
   });
