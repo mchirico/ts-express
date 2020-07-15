@@ -86,8 +86,10 @@ describe('NavbarComponent', () => {
 
     const expectedArray = [
       ['Home', '/home'],
+      ['Main', '/main'],
       ['Info', '/info'],
       ['Page0', '/page0'],
+      ['Page1', '/page1'],
       ['SVG', '/svg'],
       ['Auth', '/auth'],
       ['Notification', '/notification'],
