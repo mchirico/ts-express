@@ -422,16 +422,6 @@ describe("Edge case remove ...", function () {
 
     await timeOut(300);
 
-    // await db.doc(path).set({
-    //   action: "activate",
-    //   desc: "test add again...",
-    //   uuid: "0",
-    //   p256dh: "p256dh",
-    //   minutes: 0.0001,
-    // });
-    //
-    // await timeOut(300);
-    //
     const testQuery = db.doc(path);
     await firebase.assertSucceeds(testQuery.get());
     expect(wasCalled).to.be.true;
