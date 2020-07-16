@@ -16,7 +16,7 @@ const MY_PROJECT_ID = "septapig";
 
 const myAuth = { uid: "user_abc", email: "abc@gmail.com", admin: true };
 
-function timeout(ms: number): Promise<any> {
+function timeOut(ms: number): Promise<any> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
@@ -238,7 +238,7 @@ describe("Fake tests ...", function () {
     fbk.archive(path, { data: "example" });
 
     console.log("here...");
-    await timeout(500);
+    await timeOut(500);
 
     console.log("here 3");
 
@@ -312,22 +312,29 @@ describe("Process tests ...", function () {
   });
 });
 
-describe("Edge cases ...", function () {
+describe("Edge case modify ...", function () {
   let db: any;
+  let fbk: any;
+  let docStub: any;
+
   before(async function () {
     db = getDBadmin();
     await clearFirestoreData({ projectId: MY_PROJECT_ID });
   });
 
+  beforeEach(async function () {
+    docStub = sinon.stub(db, "doc").callsFake(fakeDoc);
+    fbk = new FBK(db);
+  });
+
   afterEach(async function () {
     await Promise.all(firebase.apps().map((app) => app.delete()));
+    docStub.restore();
   });
 
   it("onSnapShot2 modified", async function () {
     const path = "snap/1";
-
-    const docStub = sinon.stub(db, "doc").callsFake(fakeDoc);
-    const fbk = new FBK(db);
+    let wasCalled = false;
 
     const obs = fbk.onSnapshot2(
       "test",
@@ -337,6 +344,7 @@ describe("Edge cases ...", function () {
       (doc: any) => {
         console.log("...................callback:", doc?.desc);
         expect(doc?.desc).to.equal("test modified");
+        wasCalled = true;
       }
     );
 
@@ -358,8 +366,75 @@ describe("Edge cases ...", function () {
 
     const testQuery = db.doc(path);
     await firebase.assertSucceeds(testQuery.get());
+    expect(wasCalled).to.be.true;
 
-    sinon.reset();
+    obs();
+  });
+});
+
+// TODO: Can't run multple it ... does too much clean up
+describe("Edge case remove ...", function () {
+  let db: any;
+  let fbk: any;
+  let docStub: any;
+
+  before(async function () {
+    db = getDBadmin();
+    await clearFirestoreData({ projectId: MY_PROJECT_ID });
+  });
+
+  beforeEach(async function () {
+    docStub = sinon.stub(db, "doc").callsFake(fakeDoc);
+    fbk = new FBK(db);
+  });
+
+  afterEach(async function () {
+    await Promise.all(firebase.apps().map((app) => app.delete()));
+    docStub.restore();
+  });
+
+  it("onSnapShot2 removed", async function () {
+    const path = "snap/1";
+
+    let wasCalled = false;
+
+    const obs = fbk.onSnapshot2(
+      "test",
+      "action",
+      "activate",
+      "removed",
+      (doc: any) => {
+        console.log("...................callback:", doc?.desc);
+        expect(doc?.desc).to.equal("test removed");
+        wasCalled = true;
+      }
+    );
+
+    await db.doc(path).set({
+      action: "activate",
+      desc: "test removed",
+      uuid: "0",
+      p256dh: "p256dh",
+      minutes: 0.0001,
+    });
+
+    await db.doc(path).delete();
+
+    await timeOut(300);
+
+    // await db.doc(path).set({
+    //   action: "activate",
+    //   desc: "test add again...",
+    //   uuid: "0",
+    //   p256dh: "p256dh",
+    //   minutes: 0.0001,
+    // });
+    //
+    // await timeOut(300);
+    //
+    const testQuery = db.doc(path);
+    await firebase.assertSucceeds(testQuery.get());
+    expect(wasCalled).to.be.true;
     obs();
   });
 });
