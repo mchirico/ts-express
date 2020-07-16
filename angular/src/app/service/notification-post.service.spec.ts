@@ -38,4 +38,10 @@ describe('NotificationPostService', () => {
     service.addPushSubscriber('junk');
     expect(testHttpClient.urlCalled).toBe('/api/notifications');
   });
+
+  it('should call send', () => {
+    service.send();
+    expect(testHttpClient.urlCalled).toBe('/api/newsletter');
+  });
+
 });
