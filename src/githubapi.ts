@@ -15,14 +15,15 @@ class GitHubApiClient {
   }
 }
 
-const g = new GitHubApiClient();
-g.fetchUser("mchirico")
-  .then((user) => {
-    console.log(user.name);
-    console.log(user.location);
-  })
-  .catch((err) => {
-    console.error(`Error: ${err.message}`);
-  });
+// Example usage:
+// const g = new GitHubApiClient();
+// g.fetchUser("mchirico")
+//   .then((user) => {
+//     console.log(user.name);
+//     console.log(user.location);
+//   })
+//   .catch((err) => {
+//     console.error(`Error: ${err.message}`);
+//   });
 
 export { GitHubApiClient };
