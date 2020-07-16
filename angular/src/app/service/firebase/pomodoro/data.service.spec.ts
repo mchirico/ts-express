@@ -5,6 +5,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 
 class TestFireStore {
   internalStatus: string[] = [];
+  errorOnSet = false;
   valueChanges(): void{
     this.internalStatus.push('valueChanges');
   }
@@ -14,11 +15,25 @@ class TestFireStore {
     return this;
   }
 
+  ErrorSet(): void{
+    this.errorOnSet = true;
+  }
+
+  ErrorUnSet(): void{
+    this.errorOnSet = false;
+  }
+
   set(data: any): Promise<void>|Promise<any>|void {
     this.internalStatus.push('data');
+
+    if (this.errorOnSet) {
+      return new Promise((resolve, reject) => {
+        reject( new Error('Something awful happened on set'));
+      });
+    }
+
     return new Promise((resolve, reject) => {
       resolve('done..');
-      // (new Error('Something awful happened'));
     });
 
   }
@@ -36,6 +51,10 @@ class TestFireStore {
 describe('DataService', () => {
   let service: DataService;
   const testFireStore = new TestFireStore();
+  const originalConsoleError = console.error;
+  const stack: string[] = [];
+
+
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,12 +62,19 @@ describe('DataService', () => {
         {provide: AngularFirestore, useValue: testFireStore}
       ]
     });
+
     service = TestBed.inject(DataService);
+    console.error = (msg) => stack.push(msg);
 
   });
 
   afterEach( () => {
     testFireStore.resetStatus();
+    console.error = originalConsoleError;
+    testFireStore.ErrorUnSet();
+    // Clear out
+    stack.splice(0, stack.length);
+
   });
 
   it('should be created', () => {
@@ -95,4 +121,66 @@ describe('DataService', () => {
     expect(testFireStore.status).toEqual(['doc', 'path', 'valueChanges', 'data']);
 
   });
+
+  // You need async here, to wait for error message
+  it('should erro on addData', async () => {
+
+    const data: Data = {
+      name: 'name',
+      minutes: 3,
+      timeStamp: new Date(),
+      id: 'id',
+      date: 'date',
+      status: 'status',
+      tag: 'tag',
+      description: 'description',
+      action: 'action',
+    };
+
+    testFireStore.ErrorSet();
+    await service.addData(data);
+    expect(stack).toContain('Something awful happened on set');
+
+
+  });
+
+  // You need async here, to wait for error message
+  it('should erro on addDataAny', async () => {
+
+    const data: Data = {
+      name: 'name',
+      minutes: 3,
+      timeStamp: new Date(),
+      id: 'id',
+      date: 'date',
+      status: 'status',
+      tag: 'tag',
+      description: 'description',
+      action: 'action',
+    };
+
+    testFireStore.ErrorSet();
+    await service.addDataAny(data);
+    expect(stack).toContain('Something awful happened on set');
+
+
+  });
+});
+
+describe('using bind with jasmine', () => {
+
+  class F {
+    testError(x): void {
+      if (x === 2) {
+        throw new Error();
+      }
+    }
+  }
+
+
+  it('lets us avoid using an anonymous function', () => {
+    const f = new F();
+    expect(() => {f.testError(2); }).toThrow();
+  });
+
 });

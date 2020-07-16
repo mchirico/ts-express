@@ -39,14 +39,14 @@ export class DataService {
   addData(data: Data): void {
 
     this.dataDoc.set(data).catch(e => {
-      console.log(e);
+      console.error(e.message);
     });
 
   }
   addDataAny(data: any): void {
 
     this.dataDoc.set(data).catch(e => {
-      console.log(e);
+      console.error(e.message);
     });
 
   }
