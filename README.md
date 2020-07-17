@@ -1,4 +1,5 @@
 ![CI](https://github.com/mchirico/ts-express/workflows/CI/badge.svg)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/04745c578b4c423584d473ef74758ad7)](https://app.codacy.com/manual/mchirico/ts-express?utm_source=github.com&utm_medium=referral&utm_content=mchirico/ts-express&utm_campaign=Badge_Grade_Dashboard)
 [![codecov](https://codecov.io/gh/mchirico/ts-express/branch/master/graph/badge.svg)](https://codecov.io/gh/mchirico/ts-express)
 
 
