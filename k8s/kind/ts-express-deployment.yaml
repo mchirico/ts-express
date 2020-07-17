@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ts-express-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: node
+  template:
+    metadata:
+      labels:
+        app: node
+    spec:
+      containers:
+      - name: nodee
+        image: gcr.io/cwxstat-23/tsexpress:dev
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
