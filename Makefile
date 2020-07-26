@@ -4,21 +4,28 @@ TAG = dev
 TEST = test
 QT = qt
 
+.PHONY: kind
+kind:
+	kind load docker-image gcr.io/$(PROJECT)/$(NAME):$(TAG)
+
+
+.PHONY: docker-qt
 docker-qt:
 	rm -rf static
 	(cd angular && ./updateStatic.sh)
 	docker build --build-arg var_firebase="${FIREBASE_TOKEN}" -t gcr.io/$(PROJECT)/$(NAME):$(QT) -f Dockerfile_qt .
 
+.PHONY: docker-test
 docker-test:
 	docker build --build-arg var_firebase="${FIREBASE_TOKEN}" -t gcr.io/$(PROJECT)/$(NAME):$(TEST) -f Dockerfile_test .
 
-
+.PHONY: docker-build
 docker-build:
 	rm -rf static
 	(cd angular && ./updateStatic.sh)
 	docker build --build-arg var_firebase="${FIREBASE_TOKEN}" -t gcr.io/$(PROJECT)/$(NAME):$(TAG) -f Dockerfile .
 
-
+.PHONY: start
 start:
 	rm -rf static
 	(cd angular && ./updateStatic.sh) && npm run build && npm start
