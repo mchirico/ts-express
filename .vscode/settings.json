@@ -1,0 +1,29 @@
+{
+    "eslint.autoFixOnSave": true,
+    "eslint.validate": [
+      "javascript",
+      {
+        "language": "typescript",
+        "autoFix": true
+      }
+    ],
+    "editor.formatOnSave": true,
+    "[javascript]": {
+      "editor.formatOnSave": false
+    },
+    "[typescript]": {
+      "editor.formatOnSave": false
+    },
+    "editor.tabSize": 2,
+    "mochaExplorer.files": ["test/*.ts", "test/**/*.ts"],
+    "mochaExplorer.require": "ts-node/register",
+    "mocha.options": {
+      "compilers": "ts-node/register"
+    },
+    "mocha.requires": ["ts-node/register"],
+    "mocha.files.glob": "test/*.test.ts",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  }
+  
